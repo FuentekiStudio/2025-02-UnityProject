@@ -69,13 +69,13 @@ public class TDAStack<T> : IStack<T>
 
     public override string ToString()
     {
-        string stack = "-> ";
+        string stack = "";
         for (int i = 0; i < index; i++)
         {
             stack += array[i].ToString() + ", ";
         }
 
-        return stack;
+        return stack + " <-";
     }
 }
 internal class TDAQueue<T> : IQueue<T>
@@ -128,13 +128,13 @@ internal class TDAQueue<T> : IQueue<T>
 
     public override string ToString()
     {
-        string queue = "-> ";
+        string queue = "";
 
         for (int i = index - 1; i >= 0; i--)
         {
             queue += array[i].ToString() + ", ";
         }
 
-        return queue;
+        return queue + " <-";
     }
 }

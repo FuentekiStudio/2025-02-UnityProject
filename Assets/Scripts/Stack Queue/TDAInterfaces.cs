@@ -54,7 +54,14 @@ public class TDAStack<T> : IStack<T>
 
     public T Top()
     {
-        return array[index];
+        if (IsEmpty())
+        {
+            return array[0];
+        }
+        else
+        {
+            return array[index -1];
+        }
     }
 
     public bool IsEmpty()

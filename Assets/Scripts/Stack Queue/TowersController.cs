@@ -6,29 +6,42 @@ public class TowersController : MonoBehaviour
 {
     private List<TDAStack<int>> towers = new List<TDAStack<int>>();
     private TDAStack<int> selectedTower;
-    private int towersAmount;
-
+    [SerializeField] private int towersAmount;
     [SerializeField] private int towersMaxHeight = 1;
-    [SerializeField] private GameObject towersGameObject;
+    [SerializeField] private int startTowerIndex = 0;
+
+    private TowersUIController uiController;
+
+    public TDAStack<int> SelectedTower => selectedTower;
+    public int TowersAmount => towersAmount;
+    public int TowersMaxHeight => towersMaxHeight;
+    public int StartTowerIndex => startTowerIndex;
 
     private void Awake()
     {
-        towersAmount = towersGameObject.transform.childCount;
+        uiController = gameObject.GetComponent<TowersUIController>();
+
         for (int i = 0; i < towersAmount; i++)
         {
             towers.Add(new TDAStack<int>(towersMaxHeight));
         }
 
+        FillStartingTower();
+
+        Debug.Log(towers[startTowerIndex].ToString());
+    }
+
+    private void FillStartingTower()
+    {
         for (int i = towersMaxHeight; i > 0; i--)
         {
-            towers[0].Push(i);
+            towers[startTowerIndex].Push(i);
         }
-
-        Debug.Log(towers[0].ToString());
     }
 
     public void OnTowerButtonClickHandler(int index)
     {
+        Debug.Log(index);
         TDAStack<int> tower = towers[index];
 
         if (selectedTower == null)
@@ -48,7 +61,7 @@ public class TowersController : MonoBehaviour
         }
     }
 
-    public void SelectTower(TDAStack<int> towerToSelect)
+    private void SelectTower(TDAStack<int> towerToSelect)
     {
         if (towerToSelect.IsEmpty())
         {
@@ -61,13 +74,13 @@ public class TowersController : MonoBehaviour
 
     }
 
-    public void DeselectTower()
+    private void DeselectTower()
     {
         selectedTower = null;
         Debug.Log("Tower Deselected");
     }
 
-    public void PassTowerItem(TDAStack<int> newTower)
+    private void PassTowerItem(TDAStack<int> newTower)
     {
         int item = towers[towers.IndexOf(selectedTower)].Top();
 
@@ -88,11 +101,19 @@ public class TowersController : MonoBehaviour
             return;
         }
 
+        uiController.MoveItemByTowerIndex(towers.IndexOf(selectedTower), towers.IndexOf(newTower));
+
         selectedTower.Pop();
         newTower.Push(item);
 
         Debug.Log("Item (" + item + ") has been passed from tower " + towers.IndexOf(selectedTower) + " to tower " + towers.IndexOf(newTower));
 
         DeselectTower();
+    }
+
+    public int GetSelectedTowerIndex()
+    {
+        //Debug.Log(towers.IndexOf(selectedTower) + 1);
+        return towers.IndexOf(selectedTower) + 1;
     }
 }

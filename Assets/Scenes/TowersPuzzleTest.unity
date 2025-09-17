@@ -222,6 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towersAmount: 3
   towersMaxHeight: 5
+  startTowerIndex: 0
 --- !u!114 &646727708
 MonoBehaviour:
   m_ObjectHideFlags: 0

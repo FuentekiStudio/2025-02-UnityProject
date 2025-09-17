@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TowersController : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class TowersController : MonoBehaviour
     public int TowersAmount => towersAmount;
     public int TowersMaxHeight => towersMaxHeight;
     public int StartTowerIndex => startTowerIndex;
+
+    public UnityEvent onCompletedGame;
 
     private void Awake()
     {
@@ -57,6 +60,7 @@ public class TowersController : MonoBehaviour
         {
             //Puzzle Ends
             Debug.Log("WON");
+            SendEvent();
             gameObject.SetActive(false);
         }
     }
@@ -115,5 +119,11 @@ public class TowersController : MonoBehaviour
     {
         //Debug.Log(towers.IndexOf(selectedTower) + 1);
         return towers.IndexOf(selectedTower) + 1;
+    }
+
+    private void SendEvent()
+    {
+        onCompletedGame?.Invoke();
+        PlayerController.instance.enabled = true;
     }
 }

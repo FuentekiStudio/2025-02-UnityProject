@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
             {
                 OnSelectedOneChange?.Invoke(value);
             }
-
         }
     }
     private int selectedIndex = 0;

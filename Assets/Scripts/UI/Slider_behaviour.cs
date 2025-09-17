@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Slider_behavior : MonoBehaviour
+public class Slider_behaviour : MonoBehaviour
 {
     public Slider slider;
     public enum SliderType { General, Music, SFX }

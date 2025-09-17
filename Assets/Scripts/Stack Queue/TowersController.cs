@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TowersController : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class TowersController : MonoBehaviour
     public int TowersAmount => towersAmount;
     public int TowersMaxHeight => towersMaxHeight;
     public int StartTowerIndex => startTowerIndex;
+
+    public UnityEvent onCompletedGame;
 
     private void Awake()
     {
@@ -51,12 +54,14 @@ public class TowersController : MonoBehaviour
         else
         {
             PassTowerItem(tower);
+            DeselectTower();
         }
 
         if(towers[towersAmount - 1].IsFull())
         {
             //Puzzle Ends
             Debug.Log("WON");
+            SendEvent();
             gameObject.SetActive(false);
         }
     }
@@ -87,7 +92,6 @@ public class TowersController : MonoBehaviour
         if (selectedTower == newTower)
         {
             Debug.Log("! Both towers are the same");
-            DeselectTower();
             return;
         }
         if (newTower.IsFull())
@@ -107,13 +111,17 @@ public class TowersController : MonoBehaviour
         newTower.Push(item);
 
         Debug.Log("Item (" + item + ") has been passed from tower " + towers.IndexOf(selectedTower) + " to tower " + towers.IndexOf(newTower));
-
-        DeselectTower();
     }
 
     public int GetSelectedTowerIndex()
     {
         //Debug.Log(towers.IndexOf(selectedTower) + 1);
         return towers.IndexOf(selectedTower) + 1;
+    }
+
+    private void SendEvent()
+    {
+        onCompletedGame?.Invoke();
+        PlayerController.instance.enabled = true;
     }
 }

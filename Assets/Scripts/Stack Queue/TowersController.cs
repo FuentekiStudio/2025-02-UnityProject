@@ -54,6 +54,7 @@ public class TowersController : MonoBehaviour
         else
         {
             PassTowerItem(tower);
+            DeselectTower();
         }
 
         if(towers[towersAmount - 1].IsFull())
@@ -91,7 +92,6 @@ public class TowersController : MonoBehaviour
         if (selectedTower == newTower)
         {
             Debug.Log("! Both towers are the same");
-            DeselectTower();
             return;
         }
         if (newTower.IsFull())
@@ -111,8 +111,6 @@ public class TowersController : MonoBehaviour
         newTower.Push(item);
 
         Debug.Log("Item (" + item + ") has been passed from tower " + towers.IndexOf(selectedTower) + " to tower " + towers.IndexOf(newTower));
-
-        DeselectTower();
     }
 
     public int GetSelectedTowerIndex()

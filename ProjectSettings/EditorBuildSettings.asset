@@ -4,5 +4,53 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 77c84ffb256942441af92d4c179df3fe
+  - enabled: 1
+    path: Assets/Scenes/Gameplay0.unity
+    guid: a05208069bfaa0842ae57f45a635b216
+  - enabled: 1
+    path: Assets/Scenes/Gameplay1.unity
+    guid: b789a6e83727fca45a584369e5324d93
+  - enabled: 1
+    path: Assets/Scenes/Gameplay2.unity
+    guid: 88705b9d574ec584eb5c6d11a9ea8978
+  - enabled: 1
+    path: Assets/Scenes/Gameplay3.unity
+    guid: 8f4848ad50e9ed948b77ba4eae250420
+  - enabled: 1
+    path: Assets/Scenes/Gameplay3B.unity
+    guid: 3ce23c82bdfa2f24d8289f2d8a225873
+  - enabled: 1
+    path: Assets/Scenes/Gameplay3C.unity
+    guid: 93c9ac5d47ea3164a98bdf1d59a89441
+  - enabled: 1
+    path: Assets/Scenes/Gameplay4.unity
+    guid: 032a2793aae911748875a6bf137c50f5
+  - enabled: 1
+    path: Assets/Scenes/LoadingScreen.unity
+    guid: 66387078de8d6b849871127d6ef4d0d3
+  - enabled: 1
+    path: Assets/Scenes/PuzzleBlocks.unity
+    guid: 782fd5a76d99d9f4eaf115f06c9077a9
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Sokoban.unity
+    guid: deefc2d3c4967ca44b1b25025e1f6d24
+  - enabled: 1
+    path: Assets/Scenes/test lever.unity
+    guid: 0ce16171f3a9cb04989d54998924d980
+  - enabled: 1
+    path: Assets/Scenes/TilemapTest.unity
+    guid: 98724dc4db2aeff4cbce3480987a98ac
+  - enabled: 1
+    path: Assets/Scenes/UIScene.unity
+    guid: 3cd53f8661e6d2f49a00992b92048744
+  - enabled: 1
+    path: Assets/Scenes/Victory.unity
+    guid: c7a0c416551efdb4e93e2c970fa9c739
   m_configObjects: {}

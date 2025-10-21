@@ -7,7 +7,12 @@ public class IdleState : MonoBehaviour, IState
     private StateMachine machine;
     private States type = States.Idle;
 
-    public StateMachine Machine => machine;
+    public StateMachine Machine
+    {
+        get { return machine; }
+        set { machine = value; }
+    }
+
     public States Type => type;
 
     public void Enter()

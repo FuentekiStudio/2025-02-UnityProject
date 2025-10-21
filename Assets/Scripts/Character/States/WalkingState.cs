@@ -5,9 +5,13 @@ using UnityEngine;
 public class WalkingState : MonoBehaviour, IState
 {
     private StateMachine machine;
-    private States type = States.Idle;
+    private States type = States.Walking;
 
-    public StateMachine Machine => machine;
+    public StateMachine Machine
+    {
+        get { return machine; }
+        set { machine = value; }
+    }
     public States Type => type;
 
     public void Enter()

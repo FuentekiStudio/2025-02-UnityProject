@@ -106,15 +106,16 @@ public class PlayerController : MonoBehaviour
         if (_selectedOne == null)
             return;
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            _selectedOne.MoveRight();
-        }
+        _selectedOne.UpdateStateMachine();
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    _selectedOne.MoveRight();
+        //}
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            _selectedOne.MoveLeft();
-        }
+        //if (Input.GetKey(KeyCode.A))
+        //{
+        //    _selectedOne.MoveLeft();
+        //}
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
         {

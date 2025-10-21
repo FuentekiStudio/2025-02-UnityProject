@@ -8,6 +8,8 @@ public class Character_Controller : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
 
+    [SerializeField] private StateMachine stateMachine;
+
     [SerializeField] float speed = 50.0f;
     [SerializeField] float maxSpeed = 50.0f;
 
@@ -100,6 +102,10 @@ public class Character_Controller : MonoBehaviour
         JumpAnimation();
     }
 
+    public void UpdateStateMachine()
+    {
+        stateMachine.UpdateStateMachine();
+    }
 
     public void MoveRight()
     {

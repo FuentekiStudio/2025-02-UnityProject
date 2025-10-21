@@ -23,21 +23,20 @@ public class StateMachine : MonoBehaviour
     private void Start()
     {
         character = GetComponent<Character_Controller>();
+        statesDict = new Dictionary<States, IState>();
 
         IState[] statesList = statesGO.GetComponentsInChildren<IState>();
 
         foreach (IState state in statesList)
         {
+            state.Machine = this;            
             statesDict.Add(state.Type, state);
         }
 
-        if (!statesDict.TryGetValue(States.Idle, out currentState))
-        {
-            Debug.Log("Couldn't find Idle State");
-        }
+        currentState = statesDict[States.Idle];
     }
 
-    private void Update()
+    public void UpdateStateMachine()
     {
         currentState.UpdateState();
     }

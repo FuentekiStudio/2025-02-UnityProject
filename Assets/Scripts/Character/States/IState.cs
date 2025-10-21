@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IState
 {
-    StateMachine Machine { get; }
+    StateMachine Machine { get; set; }
     States Type { get; }
 
     void Enter();

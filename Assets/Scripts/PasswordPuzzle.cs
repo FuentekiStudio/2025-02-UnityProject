@@ -21,6 +21,8 @@ public class PasswordPuzzle : MonoBehaviour
 
     public void QueueValue(int x)
     {
+        if (_queue.IsFull()) return; // avoid overflow
+
         _queue.Enqueue(x);
         CheckPassword();
     }

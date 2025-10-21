@@ -5,7 +5,7 @@ using UnityEngine;
 public class PartyHandler : MonoBehaviour
 {
 
-    private Character_Controller _selectedOne;
+    [SerializeField] private Character_Controller _selectedOne;
 
     private int selectedIndex = 0;
     public List<Character_Controller> _characterPool;

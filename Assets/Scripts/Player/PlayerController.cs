@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     //Party Management
     [SerializeField] private PartyHandler _partyHandler;
     public PartyHandler partyHandler => _partyHandler;
-    private Character_Controller _selectedOne;
+    [SerializeField] private Character_Controller _selectedOne;
     public Character_Controller selectedOne { get { return _selectedOne; } }
     
     

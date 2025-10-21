@@ -17,7 +17,7 @@ MonoBehaviour:
   speedKickoff: 2
   jumpForce: 7
   jumpColdTime: 0.25
-  fuerzaExtra: 1.05
+  fuerzaExtra: 0.4
   coyoteTime: 0.25
   fallDamage: 1
   fallDamageMultiplier: 0.5

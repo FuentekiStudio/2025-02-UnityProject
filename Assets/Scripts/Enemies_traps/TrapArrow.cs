@@ -1,39 +1,66 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TrapArrow : MonoBehaviour
 {
+    [SerializeField] private Factory _factory;
+
     [SerializeField] float detectionRange = 10f;
     [SerializeField] LayerMask playerLayer;
     [SerializeField] Vector2 rayDirection = Vector2.right;
     [SerializeField] float arrowSpeed = 500f;
-    [SerializeField] float arrowDamage = 50f;  // Amount of damage arrows will deal to the player
+    [SerializeField] float arrowDamage = 50f;
 
-    private Rigidbody2D arrowRigidbody;
-    private Rigidbody2D arrowBelowRigidbody;
-    private SpriteRenderer arrowSpriteRenderer;
-    private SpriteRenderer arrowBelowSpriteRenderer;
-    private Material arrowMaterial;
-    private Material arrowBelowMaterial;
+    [Header("Arrow references")]
+    [SerializeField] private Arrow _arrow;
+    [SerializeField] private Rigidbody2D _arrowRigidbody;
+    [SerializeField] private SpriteRenderer _arrowSpriteRenderer;
+    [SerializeField] private Material _arrowMaterial;
 
     private bool trapActivated = false;
 
     private void Start()
     {
-        arrowRigidbody = transform.Find("Arrow").GetComponent<Rigidbody2D>();
-        arrowBelowRigidbody = transform.Find("Arrow_below").GetComponent<Rigidbody2D>();
-        arrowSpriteRenderer = transform.Find("Arrow").GetComponent<SpriteRenderer>();
-        arrowBelowSpriteRenderer = transform.Find("Arrow_below").GetComponent<SpriteRenderer>();
+        if (this.GetComponentInChildren<Arrow>() == null)
+        {
+            _arrow = _factory.CreateArrow("Arrow");
+            _arrowRigidbody = _arrow.GetComponent<Rigidbody2D>();
 
-        // Get the materials used by the arrows
-        arrowMaterial = arrowSpriteRenderer.material;
-        arrowBelowMaterial = arrowBelowSpriteRenderer.material;
+            if (_arrowRigidbody != null)
+                _arrowRigidbody.isKinematic = true;
 
-        arrowRigidbody.isKinematic = true;
-        arrowBelowRigidbody.isKinematic = true;
+            _arrowSpriteRenderer = _arrow.GetComponent<SpriteRenderer>();
 
-        // Check and handle sprite flip based on the ray direction
+            if (_arrowSpriteRenderer != null)
+                _arrowMaterial = _arrowSpriteRenderer.material;
+        }
+        else
+        {
+            if (_arrow == null)
+            {
+                _arrow = GetComponentInChildren<Arrow>();
+            }
+                
+            if (_arrowRigidbody == null)
+            {
+                _arrowRigidbody = _arrow.GetComponent<Rigidbody2D>();
+                _arrowRigidbody.isKinematic = true;
+            }
+            else
+            {
+                _arrowRigidbody.isKinematic = true;
+            }
+
+            if (_arrowSpriteRenderer == null)
+            {
+                _arrowSpriteRenderer = _arrow.GetComponent<SpriteRenderer>();
+                _arrowMaterial = _arrowSpriteRenderer.material;
+            }
+            else
+            {
+                _arrowMaterial = _arrowSpriteRenderer.material;
+            }
+        }
+
         FlipArrowsIfNecessary();
     }
 
@@ -60,23 +87,17 @@ public class TrapArrow : MonoBehaviour
     {
         Debug.Log("Trap activated, firing arrows!");
 
-        arrowRigidbody.isKinematic = false;
-        arrowBelowRigidbody.isKinematic = false;
+        _arrowRigidbody.isKinematic = false;
 
-        // Fire both arrows by applying force and enabling their damage logic
-        FireArrow(arrowRigidbody);
-        FireArrow(arrowBelowRigidbody);
+        FireArrow(_arrowRigidbody);
 
-        // Highlight arrows by modifying the material's outline properties
         HighlightArrows();
     }
 
     private void FireArrow(Rigidbody2D arrow)
     {
-        // Apply force to the arrow in the direction specified
         arrow.AddForce(rayDirection * arrowSpeed);
 
-        // Attach the Arrow script to manage damage when it hits the player
         Arrow arrowScript = arrow.GetComponent<Arrow>();
         if (arrowScript != null)
         {
@@ -84,38 +105,24 @@ public class TrapArrow : MonoBehaviour
         }
     }
 
-    // Flip the arrows if the rayDirection is to the left
     private void FlipArrowsIfNecessary()
     {
-        // If rayDirection is pointing left (rayDirection.x < 0), flip the arrow's sprite
         bool flip = rayDirection.x < 0;
-
-        // Flip the arrow sprite along the X-axis if needed
-        arrowSpriteRenderer.flipX = flip;
-        arrowBelowSpriteRenderer.flipX = flip;
+        _arrowSpriteRenderer.flipX = flip;
     }
 
     private void HighlightArrows()
     {
-        // Adjust the shader properties to highlight the arrows
-        arrowMaterial.SetColor("_OutlineColor", Color.yellow); // Set a brighter color
-        arrowMaterial.SetFloat("_OutlineThickness", 0.1f);     // Increase the thickness
+        _arrowMaterial.SetColor("_OutlineColor", Color.yellow);
+        _arrowMaterial.SetFloat("_OutlineThickness", 0.1f);
 
-        arrowBelowMaterial.SetColor("_OutlineColor", Color.yellow); // Set a brighter color
-        arrowBelowMaterial.SetFloat("_OutlineThickness", 0.1f);     // Increase the thickness
-
-        // Optional: Restore the original properties after a delay
-        Invoke(nameof(RestoreOriginalGlow), 1f); // Restore after 1 second
+        Invoke(nameof(RestoreOriginalGlow), 1f);
     }
 
     private void RestoreOriginalGlow()
     {
-        // Restore the original outline color and thickness
-        arrowMaterial.SetColor("_OutlineColor", Color.white);
-        arrowMaterial.SetFloat("_OutlineThickness", 0.03f); // Original thickness
-
-        arrowBelowMaterial.SetColor("_OutlineColor", Color.white);
-        arrowBelowMaterial.SetFloat("_OutlineThickness", 0.03f); // Original thickness
+        _arrowMaterial.SetColor("_OutlineColor", Color.white);
+        _arrowMaterial.SetFloat("_OutlineThickness", 0.03f);
     }
 
     private void OnDrawGizmos()

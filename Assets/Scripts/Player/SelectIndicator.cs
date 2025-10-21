@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SelectIndicator : MonoBehaviour
 {
-    private PlayerController player;
+    [SerializeField] private PlayerController player;
 
     [SerializeField] private float speed=15;
 
@@ -16,9 +16,12 @@ public class SelectIndicator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 targetPosition = player.selectedOne.transform.position;
+        if (player != null)
+        {
+            Vector3 targetPosition = player.selectedOne.transform.position;
 
-        transform.position = Vector2.Lerp(transform.position, targetPosition,
-            Time.deltaTime*speed);
+            transform.position = Vector2.Lerp(transform.position, targetPosition,
+                Time.deltaTime * speed);
+        }
     }
 }

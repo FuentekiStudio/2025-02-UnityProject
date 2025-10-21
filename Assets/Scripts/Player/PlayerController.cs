@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     //Party Management
     [SerializeField] private PartyHandler _partyHandler;
     public PartyHandler partyHandler => _partyHandler;
-    private Character_Controller _selectedOne;
+    [SerializeField] private Character_Controller _selectedOne;
     public Character_Controller selectedOne { get { return _selectedOne; } }
     
     
@@ -85,20 +85,6 @@ public class PlayerController : MonoBehaviour
         {
             _selectedOne = _partyHandler.SelectCharacter(4);
         }
-
-
-        
-
-    }
-
-    private void SelectNext()
-    {
-        //selectedIndex++;
-        //if (selectedIndex + 1 > characterPool.Count)
-        //{
-        //    selectedIndex = 0;
-        //}
-        //selectedOne = characterPool[selectedIndex];
     }
 
     private void MoveCharacter()
@@ -106,23 +92,8 @@ public class PlayerController : MonoBehaviour
         if (_selectedOne == null)
             return;
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            _selectedOne.MoveRight();
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            _selectedOne.MoveLeft();
-        }
-
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
-        {
-            _selectedOne.Jump();  
-        }
+        _selectedOne.UpdateStateMachine();
     }
-
-
 
     private void Interaction()
     {

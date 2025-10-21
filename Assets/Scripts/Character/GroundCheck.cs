@@ -4,14 +4,7 @@ using UnityEngine;
 
 public class GroundCheck : MonoBehaviour
 {
-
     public bool grounded=true;
-
-    private void Start()
-    {
-        
-    }
-
 
     private void OnTriggerStay2D(Collider2D other)
     {

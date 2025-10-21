@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _partyHandler: {fileID: 769724933374629056}
   _selectedOne: {fileID: 0}
+  _playerInventory: {fileID: 8441748575576314047}
   coins: 0
 --- !u!1001 &5104570221426260245
 PrefabInstance:
@@ -301,3 +302,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3669054813461033535, guid: 99033726f8ce22543ac6fbedd513557f, type: 3}
   m_PrefabInstance: {fileID: 5785583909079056566}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8441748575576314047 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2696979372035624969, guid: 99033726f8ce22543ac6fbedd513557f, type: 3}
+  m_PrefabInstance: {fileID: 5785583909079056566}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44f8347294b6bb458b03f55c4d5aca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

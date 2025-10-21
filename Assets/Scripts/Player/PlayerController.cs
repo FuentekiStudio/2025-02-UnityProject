@@ -12,8 +12,10 @@ public class PlayerController : MonoBehaviour
     public PartyHandler partyHandler => _partyHandler;
     [SerializeField] private Character_Controller _selectedOne;
     public Character_Controller selectedOne { get { return _selectedOne; } }
-    
-    
+
+    [SerializeField] private Inventory _playerInventory;
+
+    public Inventory PlayerInventory { get { return _playerInventory; } }
    
     public int coins = 0;
     
@@ -125,10 +127,11 @@ public class PlayerController : MonoBehaviour
             GameManager.instanceGM.TogglePause();
         }
     }
-    public void AddCoin()
+    public void AddItemToInventory(ItemData data)
     {
-        coins++;
-        OnCoinsUpdated?.Invoke(coins);
+       // coins++;
+        //OnCoinsUpdated?.Invoke(coins);
+        _playerInventory.AddItem(data);
     }
 
 }

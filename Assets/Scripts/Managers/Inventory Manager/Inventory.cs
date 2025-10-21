@@ -7,7 +7,7 @@ using UnityEngine.SocialPlatforms.Impl;
 public class Inventory : MonoBehaviour
 {
 
-    public static Inventory instance;
+    
 
     public List<InventoryItem> inventoryItems;
     public Dictionary<ItemData, InventoryItem> inventoryDictionary;
@@ -21,14 +21,7 @@ public class Inventory : MonoBehaviour
 
 
 
-    private void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(gameObject);
-
-    }
+    
 
     private void Start()
     {
@@ -47,6 +40,8 @@ public class Inventory : MonoBehaviour
 
         itemSlot = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
         UpdateSlotUI();
+
+        GameManager.instanceGM.PlayerInventory = this;
     }
 
     private void UpdateSlotUI()

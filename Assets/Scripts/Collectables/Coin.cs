@@ -16,7 +16,7 @@ public class Coin : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Character_Controller character = collision.GetComponent<Character_Controller>();
-            character.AddCoin();
+            //character.AddCoin();
 
             sfx.PlaySFX();
 

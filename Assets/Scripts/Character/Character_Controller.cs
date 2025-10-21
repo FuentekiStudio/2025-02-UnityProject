@@ -83,9 +83,9 @@ public class Character_Controller : MonoBehaviour
         OnLifeChange?.Invoke(currentHealth);
     }
 
-    public void AddCoin()
+    public void AddItemToPlayerInventory(ItemData data)
     {
-        _playerRef.AddCoin();
+        _playerRef.AddItemToInventory(data);
     }
 
     //public void FallDistance() // Este es llamado por el Player controller todo el tiempo

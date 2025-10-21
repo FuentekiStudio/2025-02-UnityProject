@@ -36,6 +36,7 @@ public static class Scene_Manager
     // A callback action to hold the scene that should be loaded after the loading screen is shown.
     public static Action onLoadCallback;
 
+    
     /// <summary>
     /// Loads the given scene while first displaying the Loading Screen.
     /// </summary>
@@ -97,9 +98,9 @@ public static class Scene_Manager
                     {
                         // If a valid scene is found, load it and exit the method.
                         LoadingScene(sceneArray[j]);
-                        if (Inventory.instance != null)
+                        if (GameManager.instanceGM.PlayerInventory != null)
                         {
-                            ScoreManager.instance.SaveInventory(Inventory.instance.inventoryDictionary);
+                            ScoreManager.instance.SaveInventory(GameManager.instanceGM.PlayerInventory.inventoryDictionary);
                         }
                         return;
                     }

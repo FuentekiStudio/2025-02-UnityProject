@@ -147,4 +147,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _arrowData: {fileID: 11400000, guid: 5b289e9b4121e154bb8e0cce267bcd4d, type: 2}
-  rb: {fileID: 4855302380295134464}
+  poolRef: {fileID: 0}
+  _rb: {fileID: 0}

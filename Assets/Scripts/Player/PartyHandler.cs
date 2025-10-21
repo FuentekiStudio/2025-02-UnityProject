@@ -50,6 +50,8 @@ public class PartyHandler : MonoBehaviour
     // Update is called once per frame
     public Character_Controller SelectCharacter(int num)
     {
+        _selectedOne.ResetInputs();
+
         if (_characterPool == null)
         {
             Debug.LogWarning("character pool is empty");

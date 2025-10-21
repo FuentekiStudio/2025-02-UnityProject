@@ -16,6 +16,7 @@ public class StateMachine : MonoBehaviour
     
     private Dictionary<States, IState> statesDict;
     private IState currentState;
+    [SerializeField] string currentStateName;
 
     public Character_Controller Character => character;
 
@@ -35,9 +36,10 @@ public class StateMachine : MonoBehaviour
         currentState = statesDict[States.Idle];
     }
 
-    public void UpdateStateMachine()
+    public void Update()
     {
         currentState.UpdateState();
+        currentStateName = currentState.Type.ToString();
     }
 
     public void ChangeState(States newState)

@@ -35,14 +35,12 @@ public class IdleState : MonoBehaviour, IState
 
     public void UpdateState()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-
-        if (horizontal != 0)
+        if (machine.Character.Horizontal != 0)
         {
             Machine.ChangeState(States.Walking);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (machine.Character.jumping)
         {
             if (CoyoteTimeExpired())
             {

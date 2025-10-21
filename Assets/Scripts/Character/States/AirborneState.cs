@@ -34,9 +34,7 @@ public class AirborneState : MonoBehaviour, IState
     {
         JumpAnimation();
 
-        float horizontal = Input.GetAxisRaw("Horizontal");
-
-        if (horizontal < 0)
+        if (machine.Character.Horizontal < 0)
         {
             if (charRb.velocity.x > -machine.Character.Data.maxSpeed)
             {
@@ -48,7 +46,7 @@ public class AirborneState : MonoBehaviour, IState
                 charSpriteRenderer.flipX = true;
             }
         }
-        else if (horizontal > 0)
+        else if (machine.Character.Horizontal > 0)
         {
             if (charRb.velocity.x < machine.Character.Data.maxSpeed)
             {
@@ -63,7 +61,7 @@ public class AirborneState : MonoBehaviour, IState
 
         if (groundCheck.grounded)
         {
-            if (horizontal != 0)
+            if (machine.Character.Horizontal != 0)
             {
                 machine.ChangeState(States.Walking);
             }
@@ -71,8 +69,12 @@ public class AirborneState : MonoBehaviour, IState
             {
                 machine.ChangeState(States.Idle);
             }
+
+            machine.Character.jumping = false;
         }
     }
+
+
     private void JumpAnimation()
     {
         if (groundCheck.grounded)

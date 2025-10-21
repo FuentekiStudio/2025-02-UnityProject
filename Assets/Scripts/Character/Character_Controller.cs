@@ -19,7 +19,8 @@ public class Character_Controller : MonoBehaviour
     [SerializeField] public float maxHealth = 100;
     [SerializeField] public float currentHealth = 100;
     [SerializeField] float airTime;
-    //[SerializeField] private float resetBool;
+    float horizontal = 0;
+    
     private Iinteractable inRangeIntaraction;
 
     public float initialFallPosition = 0;
@@ -34,7 +35,9 @@ public class Character_Controller : MonoBehaviour
 
 
     public float AirTime => airTime;
+    public float Horizontal => horizontal;
     public CharacterPhysicsData Data => data;
+    public StateMachine StateMachine => stateMachine;
 
     private void Update()
     {
@@ -48,7 +51,12 @@ public class Character_Controller : MonoBehaviour
 
     public void UpdateStateMachine()
     {
-        stateMachine.UpdateStateMachine();
+        //stateMachine.UpdateStateMachine();
+    }
+
+    public void ResetInputs()
+    {
+        horizontal = 0;
     }
 
     public void GetDamage(float damage)
@@ -86,6 +94,11 @@ public class Character_Controller : MonoBehaviour
     public void AddItemToPlayerInventory(ItemData data)
     {
         _playerRef.AddItemToInventory(data);
+    }
+
+    public void HorizontalAxis(float horizontal)
+    {
+        this.horizontal = horizontal;
     }
 
     //public void FallDistance() // Este es llamado por el Player controller todo el tiempo

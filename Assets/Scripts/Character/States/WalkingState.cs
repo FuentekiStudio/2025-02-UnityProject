@@ -31,14 +31,12 @@ public class WalkingState : MonoBehaviour, IState
 
     public void Exit()
     {
-        
+
     }
 
     public void UpdateState()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-
-        if (horizontal < 0)
+        if (machine.Character.Horizontal < 0)
         {
             if (charRb.velocity.x > -data.maxSpeed)
             {
@@ -50,7 +48,7 @@ public class WalkingState : MonoBehaviour, IState
                 charSpriteRenderer.flipX = true;
             }
         }
-        else if (horizontal > 0)
+        else if (machine.Character.Horizontal > 0)
         {
             if (charRb.velocity.x < data.maxSpeed)
             {
@@ -69,9 +67,9 @@ public class WalkingState : MonoBehaviour, IState
             return;
         }
 
-        charAnimator.SetFloat("movX", horizontal);
+        charAnimator.SetFloat("movX", machine.Character.Horizontal);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (machine.Character.jumping)
         {
             if (CoyoteTimeExpired())
             {
@@ -89,7 +87,7 @@ public class WalkingState : MonoBehaviour, IState
         {
             machine.ChangeState(States.Airborne);
         }
-    }
+    } 
 
     private bool CoyoteTimeExpired() // True si no esta en el suelo y el tiempo en el aire es mayor al coyote time
     {

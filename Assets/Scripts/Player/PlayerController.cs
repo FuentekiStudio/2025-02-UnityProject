@@ -91,7 +91,11 @@ public class PlayerController : MonoBehaviour
         if (_selectedOne == null)
             return;
 
-        _selectedOne.UpdateStateMachine();
+        //_selectedOne.UpdateStateMachine();
+
+        _selectedOne.HorizontalAxis(Input.GetAxisRaw("Horizontal"));
+        _selectedOne.jumping = Input.GetKeyDown(KeyCode.Space);
+
     }
 
     private void Interaction()

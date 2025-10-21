@@ -70,6 +70,10 @@ public class TrapArrow : MonoBehaviour
         {
             CastRay();
         }
+        if (!_arrow.IsFired)
+        {
+            trapActivated = false;
+        }
     }
 
     private void CastRay()
@@ -85,24 +89,19 @@ public class TrapArrow : MonoBehaviour
 
     private void ActivateTrap()
     {
-        Debug.Log("Trap activated, firing arrows!");
+        //Debug.Log("Trap activated, firing arrows!");
 
         _arrowRigidbody.isKinematic = false;
 
-        FireArrow(_arrowRigidbody);
+        FireArrow(_arrow);
 
         HighlightArrows();
     }
 
-    private void FireArrow(Rigidbody2D arrow)
+    private void FireArrow(Arrow arrow)
     {
-        arrow.AddForce(rayDirection * arrowSpeed);
-
-        Arrow arrowScript = arrow.GetComponent<Arrow>();
-        if (arrowScript != null)
-        {
-            arrowScript.SetDamage(arrowDamage);
-        }
+        arrow.GetRigidbody2D().AddForce(rayDirection * arrowSpeed);
+        arrow.SetDamage(arrowDamage);
     }
 
     private void FlipArrowsIfNecessary()

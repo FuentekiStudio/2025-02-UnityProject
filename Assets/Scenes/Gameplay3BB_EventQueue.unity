@@ -468,6 +468,10 @@ PrefabInstance:
       value: Lever
       objectReference: {fileID: 0}
     - target: {fileID: 1760639239246199640, guid: 475b10db57606474090ac97dfc403167, type: 3}
+      propertyPath: eventQueue
+      value: 
+      objectReference: {fileID: 1683823461}
+    - target: {fileID: 1760639239246199640, guid: 475b10db57606474090ac97dfc403167, type: 3}
       propertyPath: targetPuzzle
       value: 
       objectReference: {fileID: 1170388338}

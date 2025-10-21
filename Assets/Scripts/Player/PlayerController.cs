@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public static PlayerController instance;
+    
 
     //Party Management
     [SerializeField] private PartyHandler _partyHandler;
@@ -27,10 +27,7 @@ public class PlayerController : MonoBehaviour
     
     /// </Events> 
 
-    private void Awake()
-    {
-        instance = this;
-    }
+   
 
     // Start is called before the first frame update
     void Start()

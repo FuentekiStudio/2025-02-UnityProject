@@ -15,6 +15,8 @@ public class TowersUIController : MonoBehaviour
     [SerializeField] private GameObject btnPefab;
     [SerializeField] private List<GameObject> itemsList = new List<GameObject>();
 
+
+
     private void Awake()
     {
         for (int i = 0; i < towersControllerRef.TowersAmount; i++)
@@ -43,6 +45,8 @@ public class TowersUIController : MonoBehaviour
             item.transform.SetParent(towers[towersControllerRef.StartTowerIndex].transform);
         }
 
+
+
         canvas.SetActive(false);
     }
 
@@ -57,7 +61,7 @@ public class TowersUIController : MonoBehaviour
     public void ShowTower()
     {
         canvas.SetActive(true);
-        PlayerController.instance.enabled = false;
+        towersControllerRef.PlayerRef.enabled = false;
     }
 
 

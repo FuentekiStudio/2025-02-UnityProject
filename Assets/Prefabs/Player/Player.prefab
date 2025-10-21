@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selectedOne: {fileID: 0}
+  _playerRef: {fileID: 5730114471481963756}
   _characterPool:
   - {fileID: 7526348887619890997, guid: f76c4179668fa944e8257bf7e74f19f6, type: 3}
   - {fileID: 8402661343606516762, guid: a6fdda6bcb2eaf345be9987df157ca33, type: 3}
@@ -98,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _partyHandler: {fileID: 769724933374629056}
+  _selectedOne: {fileID: 0}
   coins: 0
 --- !u!1001 &5104570221426260245
 PrefabInstance:

@@ -6,6 +6,7 @@ public class PartyHandler : MonoBehaviour
 {
 
     [SerializeField] private Character_Controller _selectedOne;
+    [SerializeField] private PlayerController _playerRef;
 
     private int selectedIndex = 0;
     public List<Character_Controller> _characterPool;
@@ -38,6 +39,11 @@ public class PartyHandler : MonoBehaviour
         else
         {
             selectedOne = _characterPool[selectedIndex];
+        }
+
+        foreach(Character_Controller character in _characterPool)
+        {
+            character.PlayerRef = _playerRef;
         }
     }
 

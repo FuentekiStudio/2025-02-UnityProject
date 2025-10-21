@@ -5,6 +5,10 @@ using UnityEngine.Events;
 
 public class TowersController : MonoBehaviour
 {
+    [SerializeField]  PlayerController playerRef;
+
+    public  PlayerController PlayerRef => playerRef;
+
     private List<TDAStack<int>> towers = new List<TDAStack<int>>();
     private TDAStack<int> selectedTower;
     [SerializeField] private int towersAmount;
@@ -122,6 +126,6 @@ public class TowersController : MonoBehaviour
     private void SendEvent()
     {
         onCompletedGame?.Invoke();
-        PlayerController.instance.enabled = true;
+        playerRef.enabled = true;
     }
 }

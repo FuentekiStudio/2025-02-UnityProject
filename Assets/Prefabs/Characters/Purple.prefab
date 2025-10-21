@@ -118,3 +118,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  rewindSFX: {fileID: 8300000, guid: 9dcd7432399872e40a9fc555c64ebf92, type: 3}
+  sfxSpatialBlend: 1

@@ -250797,6 +250797,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1266282295 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5730114471481963756, guid: 0f2db6cc90e255f4e861310440363913, type: 3}
+  m_PrefabInstance: {fileID: 1641942126}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0590aaaa8e4d5f145aba7240e882042d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1312382091
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -252755,6 +252766,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6445402574364415441, guid: ac7710f218b503a40957552dbd276f77, type: 3}
+      propertyPath: playerRef
+      value: 
+      objectReference: {fileID: 1266282295}
     - target: {fileID: 6445402574364415441, guid: ac7710f218b503a40957552dbd276f77, type: 3}
       propertyPath: onCompletedGame.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

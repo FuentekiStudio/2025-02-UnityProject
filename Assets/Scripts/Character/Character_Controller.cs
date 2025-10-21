@@ -9,6 +9,13 @@ public class Character_Controller : MonoBehaviour
 
     [SerializeField] private StateMachine stateMachine;
 
+    private PlayerController _playerRef;
+
+    public PlayerController PlayerRef {
+        get { return _playerRef; } 
+        set { _playerRef = value; }
+    }
+
     [SerializeField] public float maxHealth = 100;
     [SerializeField] public float currentHealth = 100;
     [SerializeField] float airTime;
@@ -78,7 +85,7 @@ public class Character_Controller : MonoBehaviour
 
     public void AddCoin()
     {
-        PlayerController.instance.AddCoin();
+        _playerRef.AddCoin();
     }
 
     //public void FallDistance() // Este es llamado por el Player controller todo el tiempo

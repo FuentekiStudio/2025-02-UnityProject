@@ -14,6 +14,8 @@ public class PurpleReturnTime : MonoBehaviour
     [SerializeField] private float perStepRewindTime = 0.2f;      // cuánto tarda ir de un memento al anterior
     [SerializeField] private AnimationCurve rewindCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
+    private PlayerController _playerRef;
+
     private Character_Controller character;
     private Rigidbody2D rb;
 
@@ -30,19 +32,20 @@ public class PurpleReturnTime : MonoBehaviour
         character = GetComponent<Character_Controller>();
         rb = GetComponent<Rigidbody2D>();
         history = new LimitedStack<PositionMemento>(Capacity);
+        _playerRef = GetComponent<PlayerController>();
     }
 
     private void OnEnable()
     {
         // Escuchar cambios de selección para grabar sólo cuando este personaje esté activo
-        if (PlayerController.instance != null && PlayerController.instance.partyHandler != null)
-            PlayerController.instance.partyHandler.OnSelectedOneChange += OnSelectedOneChanged; // HUD usa el mismo evento. :contentReference[oaicite:3]{index=3}
+        if (character.PlayerRef != null && character.PlayerRef.partyHandler != null)
+            character.PlayerRef.partyHandler.OnSelectedOneChange += OnSelectedOneChanged; // HUD usa el mismo evento. :contentReference[oaicite:3]{index=3}
     }
 
     private void OnDisable()
     {
-        if (PlayerController.instance != null && PlayerController.instance.partyHandler != null)
-            PlayerController.instance.partyHandler.OnSelectedOneChange -= OnSelectedOneChanged;
+        if (character.PlayerRef != null && character.PlayerRef.partyHandler != null)
+            character.PlayerRef.partyHandler.OnSelectedOneChange -= OnSelectedOneChanged;
     }
 
     private void Update()
@@ -75,8 +78,8 @@ public class PurpleReturnTime : MonoBehaviour
 
     private bool IsSelected()
     {
-        var pc = PlayerController.instance;
-        return pc != null && pc.selectedOne == character; // PlayerController expone selectedOne. :contentReference[oaicite:4]{index=4}
+        var playerController =    character.PlayerRef;
+        return playerController != null && playerController.selectedOne == character; // PlayerController expone selectedOne. :contentReference[oaicite:4]{index=4}
     }
 
     private void SaveSnapshot()

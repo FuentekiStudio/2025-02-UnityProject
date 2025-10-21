@@ -1,10 +1,17 @@
 using UnityEngine;
 
+[RequireComponent(typeof(LeverScript))]
+[DisallowMultipleComponent]
 public class LeverToEvent : MonoBehaviour
 {
+    [Header("Targets")]
     [Tooltip("Referencia al PasswordPuzzle que debe escuchar esta palanca")]
     public PasswordPuzzle targetPuzzle;
 
+    [Tooltip("EventQueue used to serialize inputs in THIS scene.")]
+    public EventQueue eventQueue;
+
+    [Header("Config")]
     [Tooltip("Código base de esta palanca (único por palanca: 1, 2, 3...)")]
     public int leverBaseCode = 1; // el número que antes pasabamos por OnActivated
 
@@ -13,22 +20,20 @@ public class LeverToEvent : MonoBehaviour
     void Awake()
     {
         lever = GetComponent<LeverScript>();
-        if (lever == null)
-            Debug.LogError("LeverToEvent requiere LeverScript en el mismo GameObject.");
+    }
+
+    // For convenience: auto-find a queue in parents if we forget to assign it.
+    void OnValidate()
+    {
+        if (!eventQueue)
+            eventQueue = GetComponentInParent<EventQueue>();
     }
 
     // Llamamos a este método desde LeverScript.onToggleLever (vía Inspector)
     public void OnActivated()
     {
-        if (targetPuzzle == null || EventQueue.Instance == null) return;
-        EventQueue.Instance.AddEvent(new LeverInputEvent(targetPuzzle, leverBaseCode)); // siempre positivos
+        if (targetPuzzle == null || eventQueue == null) return;
+        eventQueue.AddEvent(new LeverInputEvent(targetPuzzle, leverBaseCode)); // siempre positivos
 
-        // Esto si queremos encolar numeros negativos tambien
-        //if (targetPuzzle == null || EventQueue.Instance == null) return;
-
-        //// Estado actual => código (+base para activo / -base para inactivo)
-        //int code = lever.leverIsActive ? leverBaseCode : -leverBaseCode;
-
-        //EventQueue.Instance.AddEvent(new LeverInputEvent(targetPuzzle, code));
     }
 }

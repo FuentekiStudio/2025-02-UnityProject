@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class EventQueue : MonoBehaviour
 {
     // Opcional: no me odien por agregar otro singleton
@@ -14,12 +15,12 @@ public class EventQueue : MonoBehaviour
     [Tooltip("Time between events (0 to process everything in the same frame)")]
     public float delayBetweenEvents = 0.0f;
 
-    void Awake()
-    {
-        // Singletonto rápido para pruebas globales
-        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
-        Instance = this;
-    }
+    //void Awake()
+    //{
+    //    // Singletonto rápido para pruebas globales
+    //    if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+    //    Instance = this;
+    //}
 
     public void AddEvent(IGameEvent gameEvent)
     {

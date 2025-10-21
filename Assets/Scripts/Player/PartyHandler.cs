@@ -54,7 +54,6 @@ public class PartyHandler : MonoBehaviour
         {
             case 0:
                 return SelectNext();
-                break;
             case 1:
                 selectedOne = _characterPool[0];
                 break;

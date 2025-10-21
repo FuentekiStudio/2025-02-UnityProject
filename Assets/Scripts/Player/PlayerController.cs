@@ -7,28 +7,20 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
 
-
+    //Party Management
+    [SerializeField] private PartyHandler _partyHandler;
+    public PartyHandler partyHandler => _partyHandler;
     private Character_Controller _selectedOne;
-    public Character_Controller selectedOne
-    {
-        get { return _selectedOne; }
-        set
-        {
-            _selectedOne = value;
-            if (value != null)
-            {
-                OnSelectedOneChange?.Invoke(value);
-            }
-        }
-    }
-    private int selectedIndex = 0;
-    public List<Character_Controller> characterPool;
+    public Character_Controller selectedOne { get { return _selectedOne; } }
+    
+    
+   
     public int coins = 0;
     
     /// <Events>
     
-    public delegate void OnSelectedOneHandler(Character_Controller new_SelectedOne);
-    public event OnSelectedOneHandler OnSelectedOneChange;
+    //public delegate void OnSelectedOneHandler(Character_Controller new_SelectedOne);
+    //public event OnSelectedOneHandler OnSelectedOneChange;
 
     public delegate void OnCoinsUpdatedHandler(int coins);
     public event OnCoinsUpdatedHandler OnCoinsUpdated;
@@ -43,13 +35,13 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (characterPool == null)
+        if (_partyHandler._characterPool == null)
         {
             Debug.LogWarning("character pool is empty");
         }
         else
         {
-            selectedOne = characterPool[selectedIndex];
+            _selectedOne = _partyHandler.selectedOne;
         }   
     }
 
@@ -67,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
     private void  SelectCharacter()
     {
-        if (characterPool == null)
+        if (_partyHandler._characterPool == null)
         {
             Debug.LogWarning("character pool is empty");
             return;
@@ -75,55 +67,58 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            SelectNext();
+            _selectedOne = _partyHandler.SelectCharacter(0);
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            selectedOne = characterPool[0];
+            _selectedOne = _partyHandler.SelectCharacter(1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            selectedOne = characterPool[1];
+            _selectedOne = _partyHandler.SelectCharacter(2);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            selectedOne = characterPool[2];
+            _selectedOne = _partyHandler.SelectCharacter(3);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            selectedOne = characterPool[3];
+            _selectedOne = _partyHandler.SelectCharacter(4);
         }
+
+
+        
 
     }
 
     private void SelectNext()
     {
-        selectedIndex++;
-        if (selectedIndex + 1 > characterPool.Count)
-        {
-            selectedIndex = 0;
-        }
-        selectedOne = characterPool[selectedIndex];
+        //selectedIndex++;
+        //if (selectedIndex + 1 > characterPool.Count)
+        //{
+        //    selectedIndex = 0;
+        //}
+        //selectedOne = characterPool[selectedIndex];
     }
 
     private void MoveCharacter()
     {
-        if (selectedOne == null)
+        if (_selectedOne == null)
             return;
 
         if (Input.GetKey(KeyCode.D))
         {
-            selectedOne.MoveRight();
+            _selectedOne.MoveRight();
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            selectedOne.MoveLeft();
+            _selectedOne.MoveLeft();
         }
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
         {
-            selectedOne.Jump();  
+            _selectedOne.Jump();  
         }
     }
 
@@ -131,12 +126,12 @@ public class PlayerController : MonoBehaviour
 
     private void Interaction()
     {
-        if (selectedOne == null)
+        if (_selectedOne == null)
             return;
         if (Input.GetKeyDown(KeyCode.E))
         {
             //Debug.Log("try to interact");
-            selectedOne.InteractWithObject();
+            _selectedOne.InteractWithObject();
         }
     }
 
@@ -144,11 +139,11 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            selectedOne.Healing(1);
+            _selectedOne.Healing(1);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            selectedOne.GetDamage(1);
+            _selectedOne.GetDamage(1);
         }
         if (Input.GetKeyDown(KeyCode.C))
         {

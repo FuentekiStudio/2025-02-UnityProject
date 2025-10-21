@@ -6,12 +6,11 @@ public enum States
 {
     Idle,
     Walking,
-    Jumping
+    Airborne
 }
 
 public class StateMachine : MonoBehaviour
 {
-    //List<IState> states = new List<IState>();
     [SerializeField] private GameObject statesGO;
     private Character_Controller character;
     

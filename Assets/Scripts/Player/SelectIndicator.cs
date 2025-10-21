@@ -18,7 +18,6 @@ public class SelectIndicator : MonoBehaviour
     {
         Vector3 targetPosition = player.selectedOne.transform.position;
 
-        transform.position = Vector2.Lerp(transform.position, targetPosition,
-            Time.deltaTime*speed);
+        transform.position = Vector2.Lerp(transform.position, targetPosition, Time.deltaTime * speed);
     }
 }

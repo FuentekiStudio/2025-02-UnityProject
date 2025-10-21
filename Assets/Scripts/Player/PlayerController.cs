@@ -107,20 +107,6 @@ public class PlayerController : MonoBehaviour
             return;
 
         _selectedOne.UpdateStateMachine();
-        //if (Input.GetKey(KeyCode.D))
-        //{
-        //    _selectedOne.MoveRight();
-        //}
-
-        //if (Input.GetKey(KeyCode.A))
-        //{
-        //    _selectedOne.MoveLeft();
-        //}
-
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
-        {
-            _selectedOne.Jump();  
-        }
     }
 
 

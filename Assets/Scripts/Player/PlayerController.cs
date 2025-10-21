@@ -85,20 +85,6 @@ public class PlayerController : MonoBehaviour
         {
             _selectedOne = _partyHandler.SelectCharacter(4);
         }
-
-
-        
-
-    }
-
-    private void SelectNext()
-    {
-        //selectedIndex++;
-        //if (selectedIndex + 1 > characterPool.Count)
-        //{
-        //    selectedIndex = 0;
-        //}
-        //selectedOne = characterPool[selectedIndex];
     }
 
     private void MoveCharacter()
@@ -108,8 +94,6 @@ public class PlayerController : MonoBehaviour
 
         _selectedOne.UpdateStateMachine();
     }
-
-
 
     private void Interaction()
     {

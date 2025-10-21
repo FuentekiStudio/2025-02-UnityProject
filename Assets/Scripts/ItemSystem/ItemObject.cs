@@ -62,7 +62,8 @@ public class ItemObject : MonoBehaviour
             Debug.Log("Picked up item: " + itemData.itemName);
 
             // Add the item to the inventory.
-            Inventory.instance.AddItem(itemData);
+            character.AddItemToPlayerInventory(itemData);
+            //Inventory.instance.AddItem(itemData);
 
             // Deactivate the item in the scene, simulating it being picked up.
             this.gameObject.SetActive(false);

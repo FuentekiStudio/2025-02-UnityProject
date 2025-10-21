@@ -1471,7 +1471,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 769724933374629056, guid: 0f2db6cc90e255f4e861310440363913, type: 3}
       propertyPath: _characterPool.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 769724933374629056, guid: 0f2db6cc90e255f4e861310440363913, type: 3}
       propertyPath: _characterPool.Array.data[0]
@@ -1481,6 +1481,10 @@ PrefabInstance:
       propertyPath: _characterPool.Array.data[1]
       value: 
       objectReference: {fileID: 864116637}
+    - target: {fileID: 769724933374629056, guid: 0f2db6cc90e255f4e861310440363913, type: 3}
+      propertyPath: _characterPool.Array.data[2]
+      value: 
+      objectReference: {fileID: 1770782595}
     - target: {fileID: 2266591784358230536, guid: 0f2db6cc90e255f4e861310440363913, type: 3}
       propertyPath: m_fontSize
       value: 72

@@ -7,6 +7,13 @@ public class GameManager : MonoBehaviour
     // Static instance of GameManager
     public static GameManager instanceGM;
 
+
+    private Inventory _playerInventory;
+    public Inventory PlayerInventory
+    {
+        get { return _playerInventory; }
+        set { _playerInventory = value; }
+    }
     // Game states
     public enum GameState { MainMenu, Loading, Gameplay, Victory }
     public GameState currentState;
@@ -98,10 +105,10 @@ public class GameManager : MonoBehaviour
 
     private void GetCurrentItems()
     {
-        if (Inventory.instance != null)
+        if (_playerInventory != null)
         {
-            currentCoinsCollected = Inventory.instance.GetItemCountByID(2); // Assuming ID = 2 is for coins
-            currentRelicsCollected = Inventory.instance.GetItemCountByID(3); // Assuming ID = 3 is for relics
+            currentCoinsCollected = _playerInventory.GetItemCountByID(2); // Assuming ID = 2 is for coins
+            currentRelicsCollected = _playerInventory.GetItemCountByID(3); // Assuming ID = 3 is for relics
         }
     }
     private void GetCurrentItemsInScene()

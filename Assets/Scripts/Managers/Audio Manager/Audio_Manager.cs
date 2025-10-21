@@ -21,17 +21,32 @@ public class Audio_Manager : MonoBehaviour
     // List to hold music clips for different game states (e.g., MainMenu, Gameplay, Victory)
     [SerializeField] private List<AudioClip> musicClips;
 
+    [Header("Pool")]
+    [SerializeField] private int sfxPoolSize = 8;
+    private readonly List<AudioSource> sfxPool = new();
+
     private void Awake()
     {
-        // Ensure only one instance of Audio_Manager exists
-        if (Instance == null)
+        if (Instance == null) Instance = this;
+        else { Destroy(gameObject); return; }
+
+        // build pool
+        for (int i = 0; i < sfxPoolSize; i++)
         {
-            Instance = this;
+            var src = gameObject.AddComponent<AudioSource>();
+            src.playOnAwake = false;
+            src.loop = false;
+            src.spatialBlend = 1f;    // 3D by default
+            sfxPool.Add(src);
         }
-        else
-        {
-            Destroy(gameObject); // Prevent duplicate instances
-        }
+    }
+    private AudioSource GetFreeSfxSource()
+    {
+        foreach (var src in sfxPool)
+            if (!src.isPlaying) return src;
+
+        // if all busy, recycle the least important (first)
+        return sfxPool[0];
     }
 
     /// <summary>
@@ -118,5 +133,62 @@ public class Audio_Manager : MonoBehaviour
     public void UnpauseMusic()
     {
         musicSource.UnPause();
+    }
+
+    /// <summary>
+    /// Plays a 3D SFX with custom pitch/loop/spatial settings from the pool.
+    /// Returns the AudioSource (handle) so callers can stop it when needed.
+    /// </summary>
+    public AudioSource PlaySfxPooled(AudioClip clip, Transform follow = null,
+                                     float pitch = 1f, bool loop = false,
+                                     float spatialBlend = 1f)
+    {
+        if (clip == null) return null;
+        var src = GetFreeSfxSource();
+
+        src.Stop();
+        src.clip = clip;
+        src.loop = loop;
+        src.pitch = pitch;
+        src.spatialBlend = spatialBlend;
+
+        // position follow (simple)
+        if (follow != null) src.transform.position = follow.position;
+
+        // if playing in reverse, start from end so it actually goes backwards
+        if (pitch < 0f && clip.samples > 0)
+            src.timeSamples = clip.samples - 1;
+        else
+            src.time = 0f;
+
+        src.Play();
+        UpdateVolumes();
+        return src;
+    }
+
+    /// <summary>
+    /// Convenience: forward OneShot + a separate reverse loop that the caller can stop.
+    /// Returns the reverse AudioSource handle.
+    /// </summary>
+    public AudioSource PlayForwardAndReverse(AudioClip clip, Transform follow,
+                                             float spatialBlend = 1f)
+    {
+        // forward one-shot (uses pooled source too so volumes are unified)
+        var fwd = PlaySfxPooled(clip, follow, 1f, false, spatialBlend);
+        // reverse sustained while the effect lasts
+        var rev = PlaySfxPooled(clip, follow, -1f, false, spatialBlend);
+        return rev;
+    }
+
+    /// <summary>
+    /// Stop a pooled AudioSource (and free it for reuse).
+    /// </summary>
+    public void StopPooled(AudioSource src)
+    {
+        if (src == null) return;
+        src.Stop();
+        src.clip = null;
+        src.loop = false;
+        src.pitch = 1f;
     }
 }

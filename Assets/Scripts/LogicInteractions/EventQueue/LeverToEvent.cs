@@ -22,13 +22,6 @@ public class LeverToEvent : MonoBehaviour
         lever = GetComponent<LeverScript>();
     }
 
-    // For convenience: auto-find a queue in parents if we forget to assign it.
-    void OnValidate()
-    {
-        if (!eventQueue)
-            eventQueue = GetComponentInParent<EventQueue>();
-    }
-
     // Llamamos a este método desde LeverScript.onToggleLever (vía Inspector)
     public void OnActivated()
     {
@@ -36,4 +29,12 @@ public class LeverToEvent : MonoBehaviour
         eventQueue.AddEvent(new LeverInputEvent(targetPuzzle, leverBaseCode)); // siempre positivos
 
     }
+
+
+    //// For convenience: auto-find a queue in parents if we forget to assign it.
+    //void OnValidate()
+    //{
+    //    if (!eventQueue)
+    //        eventQueue = GetComponentInParent<EventQueue>();
+    //}
 }

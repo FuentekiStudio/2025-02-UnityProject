@@ -14,7 +14,11 @@ public class PurpleReturnTime : MonoBehaviour
     [SerializeField] private float perStepRewindTime = 0.2f;      // cuánto tarda ir de un memento al anterior
     [SerializeField] private AnimationCurve rewindCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
-    private PlayerController _playerRef;
+    [Header("SFX")]
+    [Tooltip("Drag: Assets/Audio/SFX/Abilities/rewind_time.wav")]
+    [SerializeField] private AudioClip rewindSFX;
+    [Range(0f, 1f)]
+    [SerializeField] private float sfxSpatialBlend = 1f;     // 1 = 3D, 0 = 2D
 
     private Character_Controller character;
     private Rigidbody2D rb;
@@ -24,15 +28,18 @@ public class PurpleReturnTime : MonoBehaviour
     private bool isRewinding;
     private float originalGravity;
 
-    // Utilidad
-    private int Capacity => Mathf.Max(1, Mathf.RoundToInt(totalRewindSeconds / stepInterval));
+    // Handle for the reverse sound so we can stop it cleanly
+    private AudioSource reverseSfxHandle;
+
+
+    private int Capacity => Mathf.Max(1, Mathf.RoundToInt(totalRewindSeconds / stepInterval));     // Utilidad
+
 
     private void Awake()
     {
         character = GetComponent<Character_Controller>();
         rb = GetComponent<Rigidbody2D>();
         history = new LimitedStack<PositionMemento>(Capacity);
-        _playerRef = GetComponent<PlayerController>();
     }
 
     private void OnEnable()
@@ -99,6 +106,9 @@ public class PurpleReturnTime : MonoBehaviour
     {
         isRewinding = true;
 
+        // --- SFX start (forward + reverse via Audio_Manager) ---
+        PlayRewindSFX_Start();
+
         // Preparar físicas para un movimiento suave sin apagar colisiones
         originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
@@ -134,7 +144,31 @@ public class PurpleReturnTime : MonoBehaviour
         rb.gravityScale = originalGravity;
         isRewinding = false;
 
+        // --- SFX stop ---
+        StopRewindSFX();
+
         // Reiniciar temporizador para que no grabe inmediatamente el mismo frame
         recordTimer = 0f;
     }
+
+    #region SFX_via_Audio_Manaegr
+    private void PlayRewindSFX_Start()
+    {
+        if (rewindSFX == null || Audio_Manager.Instance == null) return;
+
+        // Plays forward one-shot AND a reverse track in parallel; returns handle to reverse
+        reverseSfxHandle = Audio_Manager.Instance.PlayForwardAndReverse(
+            rewindSFX, transform, sfxSpatialBlend
+        );
+    }
+
+    private void StopRewindSFX()
+    {
+        if (reverseSfxHandle != null && Audio_Manager.Instance != null)
+        {
+            Audio_Manager.Instance.StopPooled(reverseSfxHandle);
+            reverseSfxHandle = null;
+        }
+    }
+    #endregion
 }

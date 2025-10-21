@@ -2056,6 +2056,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.8113208
       objectReference: {fileID: 0}
+    - target: {fileID: 7598207422414846406, guid: a6fdda6bcb2eaf345be9987df157ca33, type: 3}
+      propertyPath: rewindSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 9dcd7432399872e40a9fc555c64ebf92, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6fdda6bcb2eaf345be9987df157ca33, type: 3}
 --- !u!114 &492475254 stripped

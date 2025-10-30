@@ -5,22 +5,12 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class EventQueue : MonoBehaviour
 {
-    // Opcional: no me odien por agregar otro singleton
-    public static EventQueue Instance { get; private set; }
-
     private readonly Queue<IGameEvent> _queue = new Queue<IGameEvent>();
     private bool _processing;
 
     [Header("Timing")]
     [Tooltip("Time between events (0 to process everything in the same frame)")]
     public float delayBetweenEvents = 0.0f;
-
-    //void Awake()
-    //{
-    //    // Singletonto rápido para pruebas globales
-    //    if (Instance != null && Instance != this) { Destroy(gameObject); return; }
-    //    Instance = this;
-    //}
 
     public void AddEvent(IGameEvent gameEvent)
     {

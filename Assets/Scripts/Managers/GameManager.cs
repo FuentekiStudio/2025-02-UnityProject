@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("muerte");
             Destroy(gameObject);
+            Debug.Log("muerte2");
+            return;
         }
         DontDestroyOnLoad(gameObject);
     }

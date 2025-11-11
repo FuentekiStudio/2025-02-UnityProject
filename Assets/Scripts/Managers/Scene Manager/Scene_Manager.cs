@@ -23,7 +23,10 @@ public class Scene_Manager : MonoBehaviour
         if (Instance == null)
             Instance = this;
         else
+        {
             Destroy(gameObject);
+            return;
+        }
 
         InitializeSceneTree();
     }

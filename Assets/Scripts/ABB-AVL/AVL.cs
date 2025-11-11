@@ -167,16 +167,15 @@ public class AVL : ABBTDA
         return current;
     }
 
-    public void Search(int key)
+    public NodeABB Search(int key)
     {
-        if (Search(root, key).info == key)
+        NodeABB node = Search(root, key);
+        if (node.info == key)
         {
-            Debug.Log(key + " was found!");
+            return node;
         }
-        else
-        {
-            Debug.Log("Nothing found!");
-        }
+
+        return null;
     }
 
     public NodeABB Search(NodeABB current, int target)

@@ -14,7 +14,7 @@ public class Scene_Manager : MonoBehaviour
     private Dictionary<int, string> sceneNames = new Dictionary<int, string>();
 
     public int TargetSceneIndex { get; private set; }
-    private int currentSceneIndex = -1;
+    public int currentSceneIndex = 0;
 
     public Action onLoadCallback;
 
@@ -202,7 +202,7 @@ public class Scene_Manager : MonoBehaviour
 
     public int GetCurrentSceneIndex()
     {
-        return SceneManager.GetActiveScene().buildIndex;
+        return sceneTree.Search(currentSceneIndex).info;
     }
 
     public bool IsSceneExcluded()

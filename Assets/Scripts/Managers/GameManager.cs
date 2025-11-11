@@ -45,12 +45,15 @@ public class GameManager : MonoBehaviour
         if (instanceGM == null)
         {
             instanceGM = this;
-            DontDestroyOnLoad(gameObject);
+
+            Debug.Log("no muerte");
         }
         else
         {
+            Debug.Log("muerte");
             Destroy(gameObject);
         }
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Update()

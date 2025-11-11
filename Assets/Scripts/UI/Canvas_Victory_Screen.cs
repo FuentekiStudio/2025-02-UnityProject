@@ -45,6 +45,6 @@ public class Canvas_Victory_Screen : MonoBehaviour
         GameManager.instanceGM.ResetTimeVariables();
         GameManager.instanceGM.ResetCollectableVariables();
         GameManager.instanceGM.ResetTotalVariables();
-        Scene_Manager.BackToMainMenu();
+        Scene_Manager.Instance.LoadMainMenu();
     }
 }

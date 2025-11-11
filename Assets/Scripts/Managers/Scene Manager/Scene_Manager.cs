@@ -1,226 +1,218 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-/// <summary>
-/// Enumeration of scenes in the game. These represent scenes that can be loaded.
-/// </summary>
-public enum Scenes
+public class Scene_Manager : MonoBehaviour
 {
-    MainMenu,
-    LoadingScreen,
-    Gameplay0,
-    Gameplay1,
-    Gameplay2,
-    Gameplay3,
-    Gameplay3B,
-    Gameplay3BB_EventQueue,
-    Gameplay3C,
-    Gameplay4,
-    Victory,
-}
+    public static Scene_Manager Instance { get; private set; }
 
-public static class Scene_Manager
-{
-    // List of scenes that will be excluded from automatic transitions
-    private static List<Scenes> excludedScenes = new List<Scenes>()
+    private ABB sceneTree = new ABB();
+    private List<int> excludedIndixes = new List<int>();
+    private Dictionary<int, string> sceneNames = new Dictionary<int, string>();
+
+    public int TargetSceneIndex { get; private set; }
+    private int currentSceneIndex = -1;
+
+    public Action onLoadCallback;
+
+    private void Awake()
     {
-        Scenes.MainMenu,
-        Scenes.LoadingScreen
-    };
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
 
-    public static Scenes targetScene;
-
-    // A callback action to hold the scene that should be loaded after the loading screen is shown.
-    public static Action onLoadCallback;
-
-    
-    /// <summary>
-    /// Loads the given scene while first displaying the Loading Screen.
-    /// </summary>
-    /// <param name="scene">The scene to be loaded, based on the Scenes enum.</param>
-    public static void LoadingScene(Scenes scene)
-    {
-        // Set the target scene before loading the loading screen
-        SetTargetScene(scene);
-
-        // Define the onLoadCallback to load the desired scene after the loading screen is shown
-        onLoadCallback = () =>
-        {
-            SceneManager.LoadScene(scene.ToString());
-            GameManager.instanceGM.ResetTime();
-            onLoadCallback = null;
-        };
-
-        // Load the loading screen scene
-        SceneManager.LoadScene(Scenes.LoadingScreen.ToString());
+        InitializeSceneTree();
     }
 
-    /// <summary>
-    /// Callback method that triggers loading the target scene after the loading screen is completed.
-    /// This method should be called when the loading screen is finished.
-    /// </summary>
-    public static void LoadingScreenCallback()
+    public void InitializeSceneTree()
     {
-        // Check if the callback is assigned, and if so, execute it to load the target scene.
-        if (onLoadCallback != null)
+        sceneTree.Inicialize();
+        sceneNames.Clear();
+        excludedIndixes.Clear();
+
+        int count = SceneManager.sceneCountInBuildSettings;
+        for (int i = 0; i < count; i++)
         {
-            onLoadCallback();  // Load the target scene
-            GameManager.instanceGM.ResetTime();
-            onLoadCallback = null;  // Clear the callback to prevent multiple loads
+            string path = SceneUtility.GetScenePathByBuildIndex(i);
+            string name = Path.GetFileNameWithoutExtension(path);
+            sceneTree.Add(i);
+            sceneNames[i] = name;
+
+            if (name == "MainMenu" || name == "LoadingScreen")
+                excludedIndixes.Add(i);
         }
+
+        Debug.Log($"Scene tree initialized with {count} scenes.");
+        sceneTree.DisplayTree(TreeOrderTypes.InOrder);
     }
 
-    /// <summary>
-    /// Automatically loads the next scene in the Scenes enum order, skipping any scenes that are in the excludedScenes list.
-    /// Call this method when you want to change scenes.
-    /// </summary>
-    public static void LoadNextScene()
+    public void LoadNextScene()
     {
-        // Convert the Scenes enum into an array to iterate through the scenes.
-        Scenes[] sceneArray = (Scenes[])Enum.GetValues(typeof(Scenes));
+        currentSceneIndex = GetCurrentSceneIndex();
 
-        // Get the current active scene name from the SceneManager.
-        string currentSceneName = SceneManager.GetActiveScene().name;
+        int nextIndex = FindNextSceneIndex(currentSceneIndex);
 
-        // Iterate over the scene array to find the current scene in the enum.
-        for (int i = 0; i < sceneArray.Length; i++)
+        if (nextIndex == -1)
         {
-            // If the current scene is found in the enum array
-            if (sceneArray[i].ToString() == currentSceneName)
+            Debug.Log("No next scene found, reloading first available gameplay scene.");
+            nextIndex = GetFirstPlayableScene();
+        }
+
+        LoadSceneWithLoadingScreen(nextIndex);
+    }
+
+    private int FindNextSceneIndex(int currentIndex)
+    {
+        List<int> orderedScenes = sceneTree.GetInOrderList();
+
+        int idx = orderedScenes.IndexOf(currentIndex);
+        if (idx == -1) return -1;
+
+        for (int i = idx + 1; i < orderedScenes.Count; i++)
+        {
+            if (!excludedIndixes.Contains(orderedScenes[i]))
+                return orderedScenes[i];
+        }
+        return -1;
+    }
+
+    private List<int> GetSceneIndixesInOrder()
+    {
+        List<int> result = new List<int>();
+        sceneTree.GetInOrderList();
+        return result;
+    }
+
+    public void ReloadCurrentScene()
+    {
+        int currentIndex = GetCurrentSceneIndex();
+        LoadSceneWithLoadingScreen(currentIndex);
+    }
+
+    public void LoadMainMenu()
+    {
+        foreach (var kvp in sceneNames)
+        {
+            if (kvp.Value == "MainMenu")
             {
-                // Start looking for the next valid scene that is not in the excludedScenes list.
-                for (int j = i + 1; j < sceneArray.Length; j++)
-                {
-                    if (!excludedScenes.Contains(sceneArray[j]))
-                    {
-                        // If a valid scene is found, load it and exit the method.
-                        LoadingScene(sceneArray[j]);
-                        if (GameManager.instanceGM.PlayerInventory != null)
-                        {
-                            ScoreManager.instance.SaveInventory(GameManager.instanceGM.PlayerInventory.inventoryDictionary);
-                        }
-                        return;
-                    }
-                }
-
-                // If no more valid scenes are found after the current one, loop back to the beginning.
-                for (int j = 0; j < sceneArray.Length; j++)
-                {
-                    if (!excludedScenes.Contains(sceneArray[j]))
-                    {
-                        // Load the first valid scene and exit the method.
-                        LoadingScene(sceneArray[j]);
-                        return;
-                    }
-                }
-
-                Debug.LogWarning("No valid scenes left to load.");
+                LoadSceneWithLoadingScreen(kvp.Key);
                 return;
             }
         }
-
-        Debug.LogError("Current scene not found in Scenes enum.");
+        Debug.LogWarning("MainMenu not found in build settings!");
     }
 
-    /// <summary>
-    /// Method to check if the current scene is in the excluded scenes list.
-    /// </summary>
-    /// <returns>True if the current scene is excluded, otherwise false.</returns>
-    public static bool IsSceneExcluded()
+    public void LoadSceneByIndex(int index)
     {
-        string currentSceneName = SceneManager.GetActiveScene().name;
-
-        // Iterate through the excluded scenes and check if the current scene matches any of them.
-        foreach (Scenes scene in excludedScenes)
+        NodeABB found = sceneTree.Search(sceneTree.root, index);
+        if (found == null)
         {
-            if (scene.ToString() == currentSceneName)
-            {
-                return true; // Current scene is excluded
-            }
+            Debug.LogError($"Scene index {index} not found in ABB!");
+            return;
         }
 
-        return false; // Current scene is not excluded
-    }
+        if (!sceneNames.TryGetValue(index, out string name))
+        {
+            Debug.LogError($"Scene name for index {index} not found!");
+            return;
+        }
 
-    /// <summary>
-    /// Loads the MainMenu scene.
-    /// </summary>
-    public static void BackToMainMenu()
-    {
-        //Scenes scene = Scenes.MainMenu;
-        //SetTargetScene(scene);
+        Debug.Log($"Loading scene: {name}");
+        SceneManager.LoadScene(name);
         GameManager.instanceGM.ResetTime();
-        LoadingScene(Scenes.MainMenu);
-        GameManager.instanceGM.ResetTimeVariables();
-        GameManager.instanceGM.ResetCollectableVariables();
-        //Debug.Log("Going back to main menu");
     }
 
-    /// <summary>
-    /// Close the application
-    /// </summary>
-    public static void ExitGame()
+    public void LoadSceneWithLoadingScreen(int targetSceneIndex)
+    {
+        if (GetCurrentSceneName() == "LoadingScreen")
+            return;
+
+        NodeABB found = sceneTree.Search(sceneTree.root, targetSceneIndex);
+        if (found == null)
+        {
+            Debug.LogError($"Scene index {targetSceneIndex} not found in ABB!");
+            return;
+        }
+
+        GameManager.instanceGM.ResetTime();
+        TargetSceneIndex = targetSceneIndex;
+
+        if (sceneNames.Values.Contains("LoadingScreen"))
+        {
+            Debug.Log($"Loading LoadingScreen before {sceneNames[targetSceneIndex]}...");
+            SceneManager.LoadScene("LoadingScreen");
+        }
+        else
+        {
+            Debug.LogWarning("LoadingScreen not found. Loading target scene directly.");
+            LoadSceneByIndex(targetSceneIndex);
+        }
+    }
+
+    public void LoadingScreenCallback()
+    {
+        NodeABB found = sceneTree.Search(sceneTree.root, TargetSceneIndex);
+        if (found == null)
+        {
+            Debug.LogError("No valid TargetSceneIndex found in ABB!");
+            return;
+        }
+
+        if (sceneNames.TryGetValue(TargetSceneIndex, out string targetName))
+        {
+            Debug.Log($"[LoadingScreen] Now loading target scene: {targetName}");
+            SceneManager.LoadScene(targetName);
+            GameManager.instanceGM.ResetTime();
+        }
+        else
+        {
+            Debug.LogError("No valid TargetSceneIndex name found!");
+        }
+    }
+
+    // Help functions
+    public int GetFirstPlayableScene()
+    {
+        List<int> orderedScenes = GetSceneIndixesInOrder();
+
+        foreach (int idx in orderedScenes)
+            if (!excludedIndixes.Contains(idx))
+                return idx;
+
+        return -1;
+    }
+
+    public string GetSceneName(int index)
+    {
+        if (sceneNames.TryGetValue(index, out string name))
+            return name;
+
+        NodeABB found = sceneTree.Search(sceneTree.root, index);
+        return found != null ? index.ToString() : string.Empty;
+    }
+
+    public string GetCurrentSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
+
+    public int GetCurrentSceneIndex()
+    {
+        return SceneManager.GetActiveScene().buildIndex;
+    }
+
+    public bool IsSceneExcluded()
+    {
+        int currentIndex = GetCurrentSceneIndex();
+        return excludedIndixes.Contains(currentIndex);
+    }
+
+    public void ExitGame()
     {
         Application.Quit();
-        //Debug.Log("Game is closed");
-    }
-
-    /// <summary>
-    /// Method to reload the current scene
-    /// </summary>
-    public static void ReloadScene()
-    {
-        Scenes scene = GetCurrentScene();
-
-        // Set the target scene before loading the loading screen
-        SetTargetScene(scene);
-
-        // Define the onLoadCallback to load the desired scene after the loading screen is shown
-        onLoadCallback = () =>
-        {
-            SceneManager.LoadScene(scene.ToString());
-            GameManager.instanceGM.ResetTime();
-            GameManager.instanceGM.ResetTimeVariables();
-            GameManager.instanceGM.ResetCollectableVariables();
-            onLoadCallback = null;
-        };
-
-        // Load the loading screen scene
-        SceneManager.LoadScene(Scenes.LoadingScreen.ToString());
-    }
-
-    /// <summary>
-    /// Method to return the current scene as a Scenes enum.
-    /// </summary>
-    public static Scenes GetCurrentScene()
-    {
-        string currentSceneName = SceneManager.GetActiveScene().name;
-
-        // Try to match the current scene name with the Scenes enum
-        foreach (Scenes scene in Enum.GetValues(typeof(Scenes)))
-        {
-            if (scene.ToString() == currentSceneName)
-            {
-                return scene;
-            }
-        }
-
-        Debug.LogError("Current scene not found in Scenes enum.");
-        return Scenes.MainMenu; // Default to MainMenu if not found (can adjust if needed)
-    }
-
-    // Method to set the target scene to be loaded
-    public static void SetTargetScene(Scenes scene)
-    {
-        targetScene = scene;
-    }
-
-    // Method to get the target scene
-    public static Scenes GetTargetScene()
-    {
-        return targetScene;
     }
 }

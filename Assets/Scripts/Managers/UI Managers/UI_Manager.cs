@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class UI_Manager : MonoBehaviour
 {
@@ -8,12 +6,10 @@ public class UI_Manager : MonoBehaviour
 
     [SerializeField] private UI_Manager_SFX_component sfx_Component;
 
-    // Menu in-game panel
     [Header("Menu In-Game HUD")]
     [SerializeField] private GameObject panelPause;
     [SerializeField] private GameObject optionsMenuContainer;
     [SerializeField] private GameObject background;
-
 
     private void Awake()
     {
@@ -29,17 +25,16 @@ public class UI_Manager : MonoBehaviour
 
     private void Update()
     {
-        if (Scene_Manager.IsSceneExcluded())
+        if (Scene_Manager.Instance.IsSceneExcluded())
         {
             panelPause.SetActive(false);
             background.SetActive(false);
         }
     }
 
-
     public void TogglePauseMenu()
     {
-        if (!Scene_Manager.IsSceneExcluded())
+        if (!Scene_Manager.Instance.IsSceneExcluded())
         {
             if (!GameManager.instanceGM.isPaused)
             {
@@ -57,7 +52,6 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
-    //Methods for button callbacks
     public void ContinueGame()
     {
         GameManager.instanceGM.UnpauseGame();
@@ -67,14 +61,14 @@ public class UI_Manager : MonoBehaviour
     {
         panelPause.SetActive(false);
         optionsMenuContainer.SetActive(false);
-        Scene_Manager.ReloadScene();
+        Scene_Manager.Instance.ReloadCurrentScene();
         GameManager.instanceGM.ResetTime();
         GameManager.instanceGM.ResetTimeVariables();
         GameManager.instanceGM.ResetCollectableVariables();
     }
     public void MainMenuButtonCallback()
     {
-        Scene_Manager.BackToMainMenu();
+        Scene_Manager.Instance.LoadMainMenu();
     }
     public void OptionButtonCallback()
     {
@@ -91,6 +85,6 @@ public class UI_Manager : MonoBehaviour
 
     public void CloseGame()
     {
-        Scene_Manager.ExitGame();
+        Scene_Manager.Instance.ExitGame();
     }
 }

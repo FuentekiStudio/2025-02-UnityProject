@@ -15,7 +15,7 @@ public class MainMenu_UIManager : MonoBehaviour
 
     public void PlayButtonCallback()
     {
-        Scene_Manager.LoadNextScene();
+        Scene_Manager.Instance.LoadNextScene();
     }
 
     public void OptionButtonCallback()
@@ -32,6 +32,6 @@ public class MainMenu_UIManager : MonoBehaviour
 
     public void ExitButtonCallback()
     {
-        Scene_Manager.ExitGame();
+        Scene_Manager.Instance.ExitGame();
     }
 }

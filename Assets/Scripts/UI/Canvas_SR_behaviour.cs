@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 using TMPro;
 
 public class Canvas_SR_behaviour : MonoBehaviour
@@ -17,7 +16,7 @@ public class Canvas_SR_behaviour : MonoBehaviour
 
     private void ShowScreenResults()
     {
-        if (Scene_Manager.GetCurrentScene() != Scenes.Victory)
+        if (Scene_Manager.Instance.GetCurrentSceneName() != "Victory")
         {
             if (GameManager.instanceGM.currentState == GameManager.GameState.Victory)
             {
@@ -71,7 +70,7 @@ public class Canvas_SR_behaviour : MonoBehaviour
         GameManager.instanceGM.ResetTimeVariables();
         GameManager.instanceGM.ResetCollectableVariables();
         GameManager.instanceGM.currentState = GameManager.GameState.Gameplay;
-        Scene_Manager.LoadNextScene();
+        Scene_Manager.Instance.LoadNextScene();
     }
     public void RestartButton()
     {
@@ -81,7 +80,7 @@ public class Canvas_SR_behaviour : MonoBehaviour
         GameManager.instanceGM.ResetTimeVariables();
         GameManager.instanceGM.ResetCollectableVariables();
         GameManager.instanceGM.currentState = GameManager.GameState.Gameplay;
-        Scene_Manager.ReloadScene();
+        Scene_Manager.Instance.ReloadCurrentScene();
     }
     public void BackToMainMenuButton()
     {
@@ -91,6 +90,6 @@ public class Canvas_SR_behaviour : MonoBehaviour
         GameManager.instanceGM.ResetTimeVariables();
         GameManager.instanceGM.ResetCollectableVariables();
         GameManager.instanceGM.currentState = GameManager.GameState.MainMenu;
-        Scene_Manager.BackToMainMenu();
+        Scene_Manager.Instance.LoadMainMenu();
     }
 }

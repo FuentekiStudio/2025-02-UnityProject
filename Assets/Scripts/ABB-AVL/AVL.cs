@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 public class AVL : ABBTDA
 {
     NodeABB? root;
@@ -324,3 +325,4 @@ public class AVL : ABBTDA
         return RotateRR(parent);
     }
 }
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.

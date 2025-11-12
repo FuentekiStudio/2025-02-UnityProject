@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
     }
     private void PauseGame()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
             GameManager.instanceGM.TogglePause();
         }

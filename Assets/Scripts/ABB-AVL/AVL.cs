@@ -32,9 +32,9 @@ public class AVL : ABBTDA
         return root.leftChild;
     }
 
-    public void Add(int data)
+    public void Add(int data, string name)
     {
-        NodeABB newItem = new NodeABB(data);
+        NodeABB newItem = new NodeABB(data, name);
         if (root == null)
         {
             root = newItem;

@@ -42,7 +42,7 @@ public class Scene_Manager : MonoBehaviour
         {
             string path = SceneUtility.GetScenePathByBuildIndex(i);
             string name = Path.GetFileNameWithoutExtension(path);
-            sceneTree.Add(i);
+            sceneTree.Add(i, name);
             sceneNames[i] = name;
 
             if (name == "MainMenu" || name == "LoadingScreen")
@@ -50,7 +50,7 @@ public class Scene_Manager : MonoBehaviour
         }
 
         Debug.Log($"Scene tree initialized with {count} scenes.");
-        sceneTree.DisplayTree(TreeOrderTypes.InOrder);
+        //sceneTree.DisplayTree(TreeOrderTypes.InOrder);
     }
 
     public void LoadNextScene()
@@ -68,46 +68,6 @@ public class Scene_Manager : MonoBehaviour
         LoadSceneWithLoadingScreen(nextIndex);
     }
 
-    private int FindNextSceneIndex(int currentIndex)
-    {
-        List<int> orderedScenes = sceneTree.GetInOrderList();
-
-        int idx = orderedScenes.IndexOf(currentIndex);
-        if (idx == -1) return -1;
-
-        for (int i = idx + 1; i < orderedScenes.Count; i++)
-        {
-            if (!excludedIndixes.Contains(orderedScenes[i]))
-                return orderedScenes[i];
-        }
-        return -1;
-    }
-
-    private List<int> GetSceneIndixesInOrder()
-    {
-        List<int> result = new List<int>();
-        sceneTree.GetInOrderList();
-        return result;
-    }
-
-    public void ReloadCurrentScene()
-    {
-        int currentIndex = GetCurrentSceneIndex();
-        LoadSceneWithLoadingScreen(currentIndex);
-    }
-
-    public void LoadMainMenu()
-    {
-        foreach (var kvp in sceneNames)
-        {
-            if (kvp.Value == "MainMenu")
-            {
-                LoadSceneWithLoadingScreen(kvp.Key);
-                return;
-            }
-        }
-        Debug.LogWarning("MainMenu not found in build settings!");
-    }
 
     public void LoadSceneByIndex(int index)
     {
@@ -118,14 +78,8 @@ public class Scene_Manager : MonoBehaviour
             return;
         }
 
-        if (!sceneNames.TryGetValue(index, out string name))
-        {
-            Debug.LogError($"Scene name for index {index} not found!");
-            return;
-        }
-
-        Debug.Log($"Loading scene: {name}");
-        SceneManager.LoadScene(name);
+        Debug.Log($"Loading scene: {found.id}");
+        SceneManager.LoadScene(found.info);
         GameManager.instanceGM.ResetTime();
     }
 
@@ -159,25 +113,60 @@ public class Scene_Manager : MonoBehaviour
     public void LoadingScreenCallback()
     {
         NodeABB found = sceneTree.Search(sceneTree.root, TargetSceneIndex);
+
         if (found == null)
         {
             Debug.LogError("No valid TargetSceneIndex found in ABB!");
             return;
         }
 
-        if (sceneNames.TryGetValue(TargetSceneIndex, out string targetName))
-        {
-            Debug.Log($"[LoadingScreen] Now loading target scene: {targetName}");
-            SceneManager.LoadScene(targetName);
-            GameManager.instanceGM.ResetTime();
-        }
-        else
-        {
-            Debug.LogError("No valid TargetSceneIndex name found!");
-        }
+        Debug.Log($"[LoadingScreen] Now loading target scene: {found.id}");
+        SceneManager.LoadScene(found.info);
+        GameManager.instanceGM.ResetTime();
     }
 
     // Help functions
+    private int FindNextSceneIndex(int currentIndex)
+    {
+        List<int> orderedScenes = sceneTree.GetInOrderList();
+
+        int idx = orderedScenes.IndexOf(currentIndex);
+        if (idx == -1) return -1;
+
+        for (int i = idx + 1; i < orderedScenes.Count; i++)
+        {
+            if (!excludedIndixes.Contains(orderedScenes[i]))
+                return orderedScenes[i];
+        }
+        return -1;
+    }
+
+    private List<int> GetSceneIndixesInOrder()
+    {
+        List<int> result = new List<int>();
+        sceneTree.GetInOrderList();
+        return result;
+    }
+
+    public void LoadMainMenu()
+    {
+        foreach (var kvp in sceneNames)
+        {
+            if (kvp.Value == "MainMenu")
+            {
+                LoadSceneWithLoadingScreen(kvp.Key);
+                return;
+            }
+        }
+        Debug.LogWarning("MainMenu not found in build settings!");
+    }
+
+    public void ReloadCurrentScene()
+    {
+        int currentIndex = GetCurrentSceneIndex();
+        LoadSceneWithLoadingScreen(currentIndex);
+    }
+
     public int GetFirstPlayableScene()
     {
         List<int> orderedScenes = GetSceneIndixesInOrder();
@@ -191,21 +180,20 @@ public class Scene_Manager : MonoBehaviour
 
     public string GetSceneName(int index)
     {
-        if (sceneNames.TryGetValue(index, out string name))
-            return name;
-
         NodeABB found = sceneTree.Search(sceneTree.root, index);
-        return found != null ? index.ToString() : string.Empty;
+        return found != null ? found.id : string.Empty;
     }
 
     public string GetCurrentSceneName()
     {
+        //return sceneTree.Search(currentSceneIndex).id;
         return SceneManager.GetActiveScene().name;
     }
 
     public int GetCurrentSceneIndex()
     {
-        return sceneTree.Search(currentSceneIndex).info;
+        //return sceneTree.Search(currentSceneIndex).info;
+        return SceneManager.GetActiveScene().buildIndex;
     }
 
     public bool IsSceneExcluded()

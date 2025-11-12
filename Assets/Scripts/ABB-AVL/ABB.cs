@@ -31,9 +31,9 @@ public class ABB : ABBTDA
         return root.leftChild;
     }
 
-    public void Add(int x)
+    public void Add(int x, string id)
     {
-        NodeABB newItem = new NodeABB(x);
+        NodeABB newItem = new NodeABB(x, id);
         if (root == null)
         {
             root = newItem;
@@ -178,7 +178,7 @@ public class ABB : ABBTDA
     {
         if (currentInTree != null)
         {
-            Debug.Log(currentInTree.info.ToString());
+            Debug.Log($"{currentInTree.info} {currentInTree.id}");
             PreOrder(currentInTree.leftChild);
             PreOrder(currentInTree.rightChild);
         }
@@ -189,7 +189,7 @@ public class ABB : ABBTDA
         if (a != null)
         {
             InOrder(a.leftChild);
-            Debug.Log(a.info.ToString());
+            Debug.Log($"{a.info} {a.id}");
             InOrder(a.rightChild);
         }
     }
@@ -200,7 +200,7 @@ public class ABB : ABBTDA
         {
             PostOrder(a.leftChild);
             PostOrder(a.rightChild);
-            Debug.Log(a.info.ToString());
+            Debug.Log($"{a.info} {a.id}");
         }
     }
 

@@ -45,14 +45,10 @@ public class GameManager : MonoBehaviour
         if (instanceGM == null)
         {
             instanceGM = this;
-
-            Debug.Log("no muerte");
         }
         else
         {
-            Debug.Log("muerte");
             Destroy(gameObject);
-            Debug.Log("muerte2");
             return;
         }
         DontDestroyOnLoad(gameObject);
@@ -181,6 +177,7 @@ public class GameManager : MonoBehaviour
     {
         // Check the current scene using Scene_Manager
         string currentSceneName = Scene_Manager.Instance.GetCurrentSceneName();
+        //Debug.Log($"{currentSceneName}");
 
         // Update the game state based on the current scene
         switch (currentSceneName)

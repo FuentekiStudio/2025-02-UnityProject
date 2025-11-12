@@ -22,8 +22,8 @@ public class LoadingProgressBar : MonoBehaviour
         //Debug.Log("Operation beginning");
 
         int targetSceneIndex = Scene_Manager.Instance.TargetSceneIndex;
-        string sceneName = Scene_Manager.Instance.GetSceneName(targetSceneIndex);
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        //string sceneName = Scene_Manager.Instance.GetSceneName(targetSceneIndex);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(targetSceneIndex);
         operation.allowSceneActivation = false;
 
         float elapsedTime = 0f;

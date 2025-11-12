@@ -5,7 +5,7 @@ public interface ABBTDA
     NodeABB RightChild();
     bool IsEmpty();
     void Inicialize();
-    void Add(int x);
+    void Add(int x, string id);
     NodeABB AddElement(NodeABB current, NodeABB x);
     void Remove(int x);
     NodeABB RemoveElement(ref NodeABB current, int x);

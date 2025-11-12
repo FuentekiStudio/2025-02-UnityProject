@@ -22,7 +22,7 @@ public class PuzzleNode : MonoBehaviour
     void Start()
     {
         rotation = gameObject.transform.rotation.eulerAngles.z;
-        Debug.Log("Nodo: " + rotation);
+        //Debug.Log("Nodo: " + rotation);
         foreach (NodeEdge edge in edges)
         {
             if (edge.node == null)
@@ -54,7 +54,7 @@ public class PuzzleNode : MonoBehaviour
     public void AristandoAndo(NodeEdge edge)
     {
         //Hace algo
-        Debug.Log("Aristando");
+        //Debug.Log("Aristando");
         graph.AddEdge(this, edge.node);
     }
 

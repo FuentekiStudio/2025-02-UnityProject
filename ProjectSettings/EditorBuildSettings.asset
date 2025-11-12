@@ -36,6 +36,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Gameplay3BB_EventQueue.unity
     guid: d67eab528791b5944b121293489f742c
   - enabled: 1
+    path: Assets/Scenes/Gameplay3BC.unity
+    guid: 1a999f4925e753d4eb519837c99412b5
+  - enabled: 1
     path: Assets/Scenes/Victory.unity
     guid: c7a0c416551efdb4e93e2c970fa9c739
   m_configObjects: {}

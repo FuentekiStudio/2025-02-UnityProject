@@ -50,7 +50,7 @@ public class Scene_Manager : MonoBehaviour
         }
 
         Debug.Log($"Scene tree initialized with {count} scenes.");
-        //sceneTree.DisplayTree(TreeOrderTypes.InOrder);
+        sceneTree.DisplayTree(TreeOrderTypes.InOrder);
     }
 
     public void LoadNextScene()
@@ -133,13 +133,16 @@ public class Scene_Manager : MonoBehaviour
 
         int idx = orderedScenes.IndexOf(currentIndex);
         */
+        
+        int nextIndex = currentIndex + 1;
 
-        int nextIndex = currentIndex+1;
+
+        //Debug.Log($"{sceneTree.Search(nextIndex).info} - {sceneTree.Search(currentIndex).info}");
         /*
         if (idx == -1) return -1;
         */
 
-        for (int i = nextIndex; i < sceneTree.Greatest(sceneTree.root); i++)
+        for (int i = nextIndex; i <= sceneTree.Greatest(sceneTree.root); i++)
         {
             if (!excludedIndixes.Contains(sceneTree.Search(i).info))
                 return sceneTree.Search(i).info;

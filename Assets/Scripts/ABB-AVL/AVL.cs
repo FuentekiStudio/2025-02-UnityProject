@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 public class AVL : ABBTDA
 {
     NodeABB? root;
@@ -166,16 +167,15 @@ public class AVL : ABBTDA
         return current;
     }
 
-    public void Search(int key)
+    public NodeABB Search(int key)
     {
-        if (Search(root, key).info == key)
+        NodeABB node = Search(root, key);
+        if (node.info == key)
         {
-            Debug.Log(key + " was found!");
+            return node;
         }
-        else
-        {
-            Debug.Log("Nothing found!");
-        }
+
+        return null;
     }
 
     public NodeABB Search(NodeABB current, int target)
@@ -324,3 +324,4 @@ public class AVL : ABBTDA
         return RotateRR(parent);
     }
 }
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.

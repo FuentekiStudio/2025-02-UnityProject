@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 public class ABB : ABBTDA
 {
     public NodeABB? root = null;
@@ -262,11 +262,13 @@ public class ABB : ABBTDA
         {
             return null;
         }
-        else if (current.info == x)
+
+        if (current.info == x)
         {
-            return root;
+            return current;
         }
-        else if (current.info < x)
+
+        if (x < current.info)
         {
             return Search(current.leftChild, x);
         }
@@ -276,15 +278,30 @@ public class ABB : ABBTDA
         }
     }
 
-    public void Search(int key)
+    public NodeABB Search(int key)
     {
-        if (Search(root, key).info == key)
+        NodeABB node = Search(root, key);
+        if (node.info == key)
         {
-            Debug.Log(key + " was found!" );
+            return node;
         }
-        else
-        {
-            Debug.Log("Nothing found!");
-        }
+
+        return null;
+    }
+
+    public List<int> GetInOrderList()
+    {
+        List<int> result = new List<int>();
+        CollectInOrder(root, result);
+        return result;
+    }
+
+    private void CollectInOrder(NodeABB node, List<int> list)
+    {
+        if (node == null) return;
+        CollectInOrder(node.leftChild, list);
+        list.Add(node.info);
+        CollectInOrder(node.rightChild, list);
     }
 }
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.

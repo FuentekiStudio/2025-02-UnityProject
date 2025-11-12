@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 77c84ffb256942441af92d4c179df3fe
   - enabled: 1
+    path: Assets/Scenes/LoadingScreen.unity
+    guid: 66387078de8d6b849871127d6ef4d0d3
+  - enabled: 1
     path: Assets/Scenes/Gameplay0.unity
     guid: a05208069bfaa0842ae57f45a635b216
   - enabled: 1
@@ -30,33 +33,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Gameplay4.unity
     guid: 032a2793aae911748875a6bf137c50f5
   - enabled: 1
-    path: Assets/Scenes/LoadingScreen.unity
-    guid: 66387078de8d6b849871127d6ef4d0d3
-  - enabled: 1
-    path: Assets/Scenes/PuzzleBlocks.unity
-    guid: 782fd5a76d99d9f4eaf115f06c9077a9
-  - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
-    path: Assets/Scenes/Sokoban.unity
-    guid: deefc2d3c4967ca44b1b25025e1f6d24
-  - enabled: 1
-    path: Assets/Scenes/test lever.unity
-    guid: 0ce16171f3a9cb04989d54998924d980
-  - enabled: 1
-    path: Assets/Scenes/TilemapTest.unity
-    guid: 98724dc4db2aeff4cbce3480987a98ac
-  - enabled: 1
-    path: Assets/Scenes/UIScene.unity
-    guid: 3cd53f8661e6d2f49a00992b92048744
+    path: Assets/Scenes/Gameplay3BB_EventQueue.unity
+    guid: d67eab528791b5944b121293489f742c
   - enabled: 1
     path: Assets/Scenes/Victory.unity
     guid: c7a0c416551efdb4e93e2c970fa9c739
-  - enabled: 0
-    path: Assets/Scenes/Gameplay3BB.unity
-    guid: f977c3dcfdde35947830756e61d2511a
-  - enabled: 1
-    path: Assets/Scenes/Gameplay3BB_EventQueue.unity
-    guid: d67eab528791b5944b121293489f742c
   m_configObjects: {}

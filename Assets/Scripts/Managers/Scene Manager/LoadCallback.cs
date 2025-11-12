@@ -9,7 +9,7 @@ public class LoadCallback : MonoBehaviour
         if (isFirstUpdate)
         {
             isFirstUpdate = false;
-            Scene_Manager.LoadingScreenCallback();
+            Scene_Manager.Instance.LoadingScreenCallback();
         }
     }
 }

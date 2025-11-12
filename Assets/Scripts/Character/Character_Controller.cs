@@ -71,7 +71,7 @@ public class Character_Controller : MonoBehaviour
             // Temporary
             GameManager.instanceGM.ResetTimeVariables();
             GameManager.instanceGM.ResetCollectableVariables();
-            Scene_Manager.ReloadScene(); // TO BE CHANGED - this should be removed and called once we run the "death animation" for the character
+            Scene_Manager.Instance.ReloadCurrentScene(); // TO BE CHANGED - this should be removed and called once we run the "death animation" for the character
         }
 
         OnLifeChange?.Invoke(currentHealth);

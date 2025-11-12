@@ -42,25 +42,27 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Check if instance already exists
         if (instanceGM == null)
         {
-            // If not, set this instance
             instanceGM = this;
-            DontDestroyOnLoad(gameObject); // Persist across scenes
+
+            Debug.Log("no muerte");
         }
         else
         {
-            // If an instance already exists, destroy this one
+            Debug.Log("muerte");
             Destroy(gameObject);
+            Debug.Log("muerte2");
+            return;
         }
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Update()
     {
         if (!showSR)
         {
-            UpdateGameState();  // Call this to update the state based on the current scene
+            UpdateGameState();
         }
         else
         {
@@ -107,21 +109,19 @@ public class GameManager : MonoBehaviour
     {
         if (_playerInventory != null)
         {
-            currentCoinsCollected = _playerInventory.GetItemCountByID(2); // Assuming ID = 2 is for coins
-            currentRelicsCollected = _playerInventory.GetItemCountByID(3); // Assuming ID = 3 is for relics
+            currentCoinsCollected = _playerInventory.GetItemCountByID(2);
+            currentRelicsCollected = _playerInventory.GetItemCountByID(3);
         }
     }
     private void GetCurrentItemsInScene()
     {
         if (currentState == GameState.Gameplay && !countItems)
         {
-            countItems = true; // Prevent multiple calls while counting
+            countItems = true;
 
-            // Local variables for counting
             int coinsCount = 0;
             int relicsCount = 0;
 
-            // Find all active ItemObject instances in the scene
             ItemObject[] itemsInScene = FindObjectsOfType<ItemObject>();
 
             foreach (ItemObject item in itemsInScene)
@@ -130,10 +130,10 @@ public class GameManager : MonoBehaviour
                 {
                     switch (item.itemData.ID)
                     {
-                        case 2: // Assuming ID = 2 is for coins
+                        case 2:
                             coinsCount++;
                             break;
-                        case 3: // Assuming ID = 3 is for relics
+                        case 3:
                             relicsCount++;
                             break;
                     }
@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour
             currentCoinsInLevel = coinsCount;
             currentRelicsInLevel = relicsCount;
 
-            Debug.Log($"Items in Scene Counted: Coins = {currentCoinsInLevel}, Relics = {currentRelicsInLevel}");
+            //Debug.Log($"Items in Scene Counted: Coins = {currentCoinsInLevel}, Relics = {currentRelicsInLevel}");
         }
         else if (currentState == GameState.Loading)
         {
@@ -180,12 +180,12 @@ public class GameManager : MonoBehaviour
     private void UpdateGameState()
     {
         // Check the current scene using Scene_Manager
-        Scenes currentScene = Scene_Manager.GetCurrentScene();
+        string currentSceneName = Scene_Manager.Instance.GetCurrentSceneName();
 
         // Update the game state based on the current scene
-        switch (currentScene)
+        switch (currentSceneName)
         {
-            case Scenes.MainMenu:
+            case "MainMenu":
                 currentState = GameState.MainMenu;
                 ScoreManager.instance.ResetInventory();
                 showSR = false;
@@ -195,18 +195,17 @@ public class GameManager : MonoBehaviour
                 ResetCollectableVariables();
                 ResetTotalVariables();
                 break;
-            case Scenes.LoadingScreen:
+            case "LoadingScreen":
                 currentState = GameState.Loading;
                 break;
-            case Scenes.Victory:
+            case "Victory":
                 currentState = GameState.Victory;
                 break;
             default:
-                currentState = GameState.Gameplay;  // All other scenes are treated as gameplay
+                currentState = GameState.Gameplay;
                 break;
         }
 
-        // Optionally, trigger other actions based on state changes (like playing music)
         Audio_Manager.Instance.PlayMusicForState(currentState);
     }
 
@@ -218,14 +217,13 @@ public class GameManager : MonoBehaviour
         //Debug.LogWarning("Reset");
     }
 
-    // Method to pause the game
     public void PauseGame()
     {
-        if (!Scene_Manager.IsSceneExcluded())
+        if (!Scene_Manager.Instance.IsSceneExcluded())
         {
             if (!isPaused)
             {
-                Time.timeScale = 0f; // Stop time
+                Time.timeScale = 0f;
                 isPaused = true;
                 Audio_Manager.Instance.PauseMusic();
                 //Debug.Log("Game Paused");
@@ -233,14 +231,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Method to unpause the game
     public void UnpauseGame()
     {
-        if (!Scene_Manager.IsSceneExcluded())
+        if (!Scene_Manager.Instance.IsSceneExcluded())
         {
             if (isPaused)
             {
-                Time.timeScale = 1f; // Resume time
+                Time.timeScale = 1f;
                 isPaused = false;
                 Audio_Manager.Instance.UnpauseMusic();
                 //Debug.Log("Game Unpaused");
@@ -248,10 +245,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Method to toggle pause/unpause
     public void TogglePause()
     {
-        if (!Scene_Manager.IsSceneExcluded() && !showSR)
+        if (!Scene_Manager.Instance.IsSceneExcluded() && !showSR)
         {
             if (isPaused)
             {

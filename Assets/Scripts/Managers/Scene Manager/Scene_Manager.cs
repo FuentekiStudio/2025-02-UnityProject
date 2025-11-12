@@ -49,8 +49,8 @@ public class Scene_Manager : MonoBehaviour
                 excludedIndixes.Add(i);
         }
 
-        Debug.Log($"Scene tree initialized with {count} scenes.");
-        sceneTree.DisplayTree(TreeOrderTypes.InOrder);
+        //Debug.Log($"Scene tree initialized with {count} scenes.");
+        //sceneTree.DisplayTree(TreeOrderTypes.InOrder);
     }
 
     public void LoadNextScene()

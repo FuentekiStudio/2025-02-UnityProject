@@ -6,9 +6,6 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class Inventory : MonoBehaviour
 {
-
-    
-
     public List<InventoryItem> inventoryItems;
     public Dictionary<ItemData, InventoryItem> inventoryDictionary;
 
@@ -19,12 +16,11 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Transform inventorySlotParent;
     private UI_ItemSlot[] itemSlot;
 
-
-
-    
+    InvQuickSort qSort;
 
     private void Start()
     {
+        qSort = new InvQuickSort();
         inventoryDictionary = new Dictionary<ItemData, InventoryItem>();
         foreach (var item in ScoreManager.instance.LoadInventory())
         {
@@ -89,6 +85,9 @@ public class Inventory : MonoBehaviour
         {
             itemTypeCounts[_item.ID] = 1;
         }
+
+        qSort.QSort(inventoryItems, 0, inventoryItems.Count - 1);
+        qSort.ImprimirVector(inventoryItems);
 
         UpdateSlotUI();
     }

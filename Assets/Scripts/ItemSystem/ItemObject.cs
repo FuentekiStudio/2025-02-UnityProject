@@ -59,7 +59,7 @@ public class ItemObject : MonoBehaviour
             Character_Controller character = collision.GetComponent<Character_Controller>();
 
             // Log a message indicating the item was picked up (useful for debugging).
-            Debug.Log("Picked up item: " + itemData.itemName);
+            //Debug.Log("Picked up item: " + itemData.itemName);
 
             // Add the item to the inventory.
             character.AddItemToPlayerInventory(itemData);

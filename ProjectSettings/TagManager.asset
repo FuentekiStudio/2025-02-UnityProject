@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Relics
+  - Obstacles
+  - ObjectsToPush
+  - Coin
+  - TrapArrow
+  - NodeEdge
   layers:
   - Default
   - TransparentFX

@@ -56,8 +56,8 @@ using UnityEngine;
 
         public void AddEdge(int vertex1, int vertex2, int peso)
         {
-            VertexNode node1 = Vert2Nodo(vertex1);
-            VertexNode node2 = Vert2Nodo(vertex2);
+            VertexNode node1 = VertToNode(vertex1);
+            VertexNode node2 = VertToNode(vertex2);
             //La nueva arista se inserta al inicio de la lista
             //de nodos adyacentes del nodo origen
             EdgeNode aux = new EdgeNode();
@@ -67,7 +67,7 @@ using UnityEngine;
             node1.arista = aux;
         }
 
-        private VertexNode Vert2Nodo(int value)
+        public VertexNode VertToNode(int value)
         {
             VertexNode aux = origin;
             while (aux != null && aux.valorNodo != value)
@@ -90,7 +90,7 @@ using UnityEngine;
             while (aux != null)
             {
                 // remueve de aux todas las aristas hacia v
-                this.EliminarAristaNodo(aux, value);
+                this.DeleteEdge(aux, value);
                 if (aux.sigNodo != null && aux.sigNodo.valorNodo == value)
                 {
                     //Si el siguiente nodo de aux es v, lo elimina
@@ -104,20 +104,20 @@ using UnityEngine;
         * Si en las aristas del nodo existe
         * una arista hacia v, la elimina
         */
-        private void EliminarAristaNodo(VertexNode nodo, int v)
+        public void DeleteEdge(VertexNode nodo, int vertex)
         {
             EdgeNode aux = nodo.arista;
             if (aux != null)
             {
                 //Si la arista a eliminar es la primera en
                 //la lista de nodos adyacentes
-                if (aux.nodoDestino.valorNodo == v)
+                if (aux.nodoDestino.valorNodo == vertex)
                 {
                     nodo.arista = aux.sigArista;
                 }
                 else
                 {
-                    while (aux.sigArista != null && aux.sigArista.nodoDestino.valorNodo != v)
+                    while (aux.sigArista != null && aux.sigArista.nodoDestino.valorNodo != vertex)
                     {
                         aux = aux.sigArista;
                     }
@@ -153,4 +153,9 @@ using UnityEngine;
     {
         throw new System.NotImplementedException();
     }
-}
+
+    
+
+
+    }
+

@@ -68,7 +68,6 @@ public class Scene_Manager : MonoBehaviour
         LoadSceneWithLoadingScreen(nextIndex);
     }
 
-
     public void LoadSceneByIndex(int index)
     {
         NodeABB found = sceneTree.Search(sceneTree.root, index);
@@ -128,19 +127,7 @@ public class Scene_Manager : MonoBehaviour
     // Help functions
     private int FindNextSceneIndex(int currentIndex)
     {
-        /*
-        List<int> orderedScenes = sceneTree.GetInOrderList();
-
-        int idx = orderedScenes.IndexOf(currentIndex);
-        */
-        
         int nextIndex = currentIndex + 1;
-
-
-        //Debug.Log($"{sceneTree.Search(nextIndex).info} - {sceneTree.Search(currentIndex).info}");
-        /*
-        if (idx == -1) return -1;
-        */
 
         for (int i = nextIndex; i <= sceneTree.Greatest(sceneTree.root); i++)
         {

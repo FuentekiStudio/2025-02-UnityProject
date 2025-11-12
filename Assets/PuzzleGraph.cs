@@ -32,9 +32,6 @@ public class PuzzleGraph : MonoBehaviour
             node.graph = this;
         }
 
-        //originNode = nodes[0];
-        //destinyNode = nodes[nodes.Count -1];
-
     }
 
     private void Update()

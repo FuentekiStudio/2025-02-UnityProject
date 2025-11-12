@@ -4,32 +4,6 @@ using UnityEngine;
 
 public class InvQuickSort
 {
-
-    //private void Start()
-    //{
-
-    //    for (int i = 0; i < 10; i++)
-    //    {
-    //        arrayPlayer[i] = new Player();
-    //        arrayPlayer[i].name = "Player_" + i.ToString();
-    //        arrayPlayer[i].score = Random.Range(1, 100);
-    //    }
-
-    //    Debug.Log("Inicio Programa: Quick Sort");
-
-    //    // muestro vector desordenado
-    //    Debug.Log("\nLista Desordenada: ");
-    //    ImprimirVector(arrayPlayer);
-
-    //    // algoritmo de ordenamiento
-    //    // inicialmente los parametros left y right son los extremos del vector
-    //    QSort(arrayPlayer, 0, arrayPlayer.Length - 1);
-
-    //    // muestro vector ordenado
-    //    Debug.Log("\nLista Ordenada: ");
-    //    ImprimirVector(arrayPlayer);
-    //}
-
     public int Partition(List<InventoryItem> items, int left, int right)
     {
         int pivot;

@@ -130,32 +130,36 @@ using UnityEngine;
             }
         }
 
-    
+        public void DeleteEdge(int v1, int v2)
+        {
+            throw new System.NotImplementedException();
+        }
 
-    public void DeleteEdge(int v1, int v2)
-    {
-        throw new System.NotImplementedException();
-    }
+        public bool ExistsEdge(int v1, int v2)
+        {
+            throw new System.NotImplementedException();
+        }
 
-    public bool ExistsEdge(int v1, int v2)
-    {
-        throw new System.NotImplementedException();
-    }
+        public int WeightEdge(int v1, int v2)
+        {
+            throw new System.NotImplementedException();
+        }
 
-    public int WeightEdge(int v1, int v2)
-    {
-        throw new System.NotImplementedException();
-    }
+        public SetTDA VertexSet()
+        {
+            throw new System.NotImplementedException();
+        }
 
-
-
-    public SetTDA VertexSet()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    
-
-
+        public int GetVertexCount()
+        {
+            VertexNode aux = origin;
+            int count = 0;
+            while (aux != null)
+            {
+                aux = aux.sigNodo;
+                count++;
+            }
+            return count;
+        }
     }
 

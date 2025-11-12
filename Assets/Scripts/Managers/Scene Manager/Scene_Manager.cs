@@ -128,15 +128,21 @@ public class Scene_Manager : MonoBehaviour
     // Help functions
     private int FindNextSceneIndex(int currentIndex)
     {
+        /*
         List<int> orderedScenes = sceneTree.GetInOrderList();
 
         int idx = orderedScenes.IndexOf(currentIndex);
-        if (idx == -1) return -1;
+        */
 
-        for (int i = idx + 1; i < orderedScenes.Count; i++)
+        int nextIndex = currentIndex+1;
+        /*
+        if (idx == -1) return -1;
+        */
+
+        for (int i = nextIndex; i < sceneTree.Greatest(sceneTree.root); i++)
         {
-            if (!excludedIndixes.Contains(orderedScenes[i]))
-                return orderedScenes[i];
+            if (!excludedIndixes.Contains(sceneTree.Search(i).info))
+                return sceneTree.Search(i).info;
         }
         return -1;
     }

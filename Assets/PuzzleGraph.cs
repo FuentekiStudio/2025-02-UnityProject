@@ -18,8 +18,7 @@ public class PuzzleGraph : MonoBehaviour
     Coroutine delayedVictoryCoroutine;
 
     public gateScript bill;
-    private bool victory = false;
-
+    
     // Start is called before the first frame update
     void Start()
     {

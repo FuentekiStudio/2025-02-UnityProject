@@ -19,9 +19,10 @@ public class PlayerController : MonoBehaviour
     //public delegate void OnSelectedOneHandler(Character_Controller new_SelectedOne);
     //public event OnSelectedOneHandler OnSelectedOneChange;
 
+    /*
     public delegate void OnCoinsUpdatedHandler(int coins);
     public event OnCoinsUpdatedHandler OnCoinsUpdated;
-    
+    */
     /// </Events> 
 
    

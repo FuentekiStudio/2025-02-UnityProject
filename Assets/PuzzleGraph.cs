@@ -14,6 +14,9 @@ public class PuzzleGraph : MonoBehaviour
     
     private Dijkstra dijkstra;
 
+
+    Coroutine delayedVictoryCoroutine;
+
     public gateScript bill;
     private bool victory = false;
 
@@ -37,16 +40,93 @@ public class PuzzleGraph : MonoBehaviour
 
     private void Update()
     {
-        if (victory)
+        /*if (victory)
         {
             Victory();
-        }
+        }*/
     }
 
     public void AddEdge(PuzzleNode node1, PuzzleNode node2)
     {
         graph.AddEdge(node1.id, node2.id, 1);
+
+        CheckVictory();
+
+        /*
+        if (delayedVictoryCoroutine == null)
+        {
+            Debug.Log("star new rutine");
+            delayedVictoryCoroutine = StartCoroutine(DelayedVictory());
+        }
+        */
+
+    }
+
+    public void DeleteEdge(PuzzleNode node1, PuzzleNode node2)
+    {
+        graph.DeleteEdge(graph.VertToNode(node1.id), node2.id);
+        CheckVictory();
+    }
+
+    public bool WinCondition()
+    {
+        DijkstraResult result = dijkstra.Ejecutar(originNode.id);
+
+        Debug.Log("Distancias:");
+        for(int i = 0; i < result.Vertices.Count; i++)
+        {
+            Debug.Log("Nodo " + result.Vertices[i] + ": " + result.Distancia[i]);
+        }
+        Debug.Log("___________________");
+
+        List<int> path = dijkstra.ObtenerCamino(originNode.id, destinyNode.id, result);
+        int indiceDestino = result.Vertices.IndexOf(destinyNode.id);
+        int distance = result.Distancia[indiceDestino];
+
+        string pathString = "Path: ";
+        foreach (int value in path)
+        {
+            pathString += value + " ";
+        }
+        Debug.Log("___________________");
+
+        if (path.Count != 0)
+        {
+            Debug.Log("Distancia recibida: " + distance + "m.");
+            if (distance <= maxDistance && distance >0)
+            {
+                Debug.Log("todo bien si forte llegï¿½ todo");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+
+        return false;
+    }
+
+    public void CheckVictory()
+    {
         
+        bool win = WinCondition();
+        if (win){
+            bill.openedGate = false;
+            bill.ChangeSprite();
+        }else{
+            bill.openedGate = true;
+            bill.ChangeSprite();
+        }
+
+    }
+
+
+    IEnumerator DelayedVictory()
+    {
+        yield return new WaitForSeconds(0);
+
         DijkstraResult result = dijkstra.Ejecutar(originNode.id);
 
         Debug.Log("Distancias:");
@@ -55,44 +135,16 @@ public class PuzzleGraph : MonoBehaviour
             Debug.Log(value);
         }
         Debug.Log("___________________");
+
         List<int> path = dijkstra.ObtenerCamino(originNode.id, destinyNode.id, result);
         int indiceDestino = result.Vertices.IndexOf(destinyNode.id);
-        WinCondition(path, result.Distancia[indiceDestino]);
-    }
-
-    public void DeleteEdge(PuzzleNode node1, PuzzleNode node2)
-    {
-        graph.DeleteEdge(graph.VertToNode(node1.id), node2.id);
-    }
-
-    public void WinCondition(List<int> path, int distance)
-    {
-        Debug.Log("Path:");
-        foreach (int value in path)
-        {
-            Debug.Log(value);
+        bool win = WinCondition();
+        if (win){
+            bill.openedGate = false;
+            bill.ChangeSprite();
+        }else{
+            bill.openedGate = true;
+            bill.ChangeSprite();
         }
-        Debug.Log("___________________");
-
-        if (path.Count != 0)
-        {
-            if (distance <= maxDistance)
-            {
-                Debug.Log("todo bien si forte llegó todo");
-                victory = true;
-            }
-            else
-            {
-                victory = false;
-            }
-            
-            Debug.Log("Distancia recibida: " + distance + "m.");
-        }
-    }
-
-    public void Victory()
-    {
-        bill.ChangeSprite();
-        victory = false;
     }
 }

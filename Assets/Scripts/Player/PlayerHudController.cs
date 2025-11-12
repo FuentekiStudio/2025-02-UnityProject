@@ -34,7 +34,7 @@ public class PlayerHudController : MonoBehaviour
         if (player != null)
         {
             player.partyHandler.OnSelectedOneChange += UpdateCharacter;
-            player.OnCoinsUpdated += UpdateCoinsCount;
+            /*player.OnCoinsUpdated += UpdateCoinsCount;*/
         }
     }
 
@@ -50,7 +50,7 @@ public class PlayerHudController : MonoBehaviour
         if (player != null)
         {
             player.partyHandler.OnSelectedOneChange -= UpdateCharacter;
-            player.OnCoinsUpdated -= UpdateCoinsCount;
+            /*player.OnCoinsUpdated -= UpdateCoinsCount;*/
         }
     }
 

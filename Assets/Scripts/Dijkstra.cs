@@ -109,11 +109,11 @@ public class Dijkstra
     }
 
     //  Reconstrucción del camino desde origen hasta destino
-    public List<int> ObtenerCamino(int origen, int destino, DijkstraResult resultado)
+    public List<int> ObtenerCamino(int ID_origen, int ID_destino, DijkstraResult resultado)
     {
         List<int> camino = new List<int>();
 
-        int indiceDestino = resultado.Vertices.IndexOf(destino);
+        int indiceDestino = resultado.Vertices.IndexOf(ID_destino);
         if (indiceDestino == -1)
         {
             Debug.LogError("El nodo destino no existe en el grafo.");
@@ -126,7 +126,7 @@ public class Dijkstra
             return camino;
         }
 
-        int? actual = destino;
+        int? actual = ID_destino;
 
         // Reconstruir hacia atrás usando la lista de previos
         while (actual != null)
@@ -137,7 +137,8 @@ public class Dijkstra
         }
 
         // Confirmar que el primer nodo sea el origen
-        if (camino[0] != origen)
+        int indiceOrigen = resultado.Vertices.IndexOf(ID_origen);
+        if (camino[0] != indiceOrigen)
         {
             Debug.LogWarning("El camino reconstruido no inicia en el nodo origen.");
         }

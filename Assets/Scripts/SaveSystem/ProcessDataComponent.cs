@@ -24,4 +24,9 @@ public class ProcessDataComponent
     {
         return data.objectStack;
     }
+
+    public string[] GetInventoryIDs()
+    {
+        return data.objectNames;
+    }
 }

@@ -8,6 +8,14 @@ public class LevelAndInventoryData
 {
     public int savedLevel;
     public int[] objectStack;
+    public string[] objectNames;
+
+    public LevelAndInventoryData(int sceneIndex, string[] itemNames, int[] itemStacks)
+    {
+        savedLevel = sceneIndex;
+        objectNames = itemNames;
+        objectStack = itemStacks;
+    }
 
     //public static LevelAndInventoryData ReturnClass()
     //{

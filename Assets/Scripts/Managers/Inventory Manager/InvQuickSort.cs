@@ -14,27 +14,27 @@ public class InvQuickSort
         // a la izquierda y los mayores a la derecha
         while (true)
         {
-            Debug.Log($"hola {pivot}");
+            //Debug.Log($"hola {pivot}");
 
             while (items[left].stackSize < pivot)
             {
                 left++;
-                Debug.Log(left);
+                //Debug.Log(left);
             }
             while (items[right].stackSize > pivot)
             {
                 right--;
-                Debug.Log(right);
+                //Debug.Log(right);
             }
 
             if (items[left].stackSize == items[right].stackSize)
             {
-                Debug.Log($"sayonara :) - {left} {right}");
+                //Debug.Log($"sayonara :) - {left} {right}");
                 return right;
             }
             if (left < right)
             {
-                Debug.Log("A");
+                //Debug.Log("A");
                 InventoryItem temp = items[right];
                 items[right] = items[left];
                 items[left] = temp;
@@ -43,7 +43,7 @@ public class InvQuickSort
             {
                 // este es el valor que devuelvo como proxima posicion de
                 // la particion en el siguiente paso del algoritmo
-                Debug.Log("B");
+                //Debug.Log("B");
                 return right;
             }
         }

@@ -35,7 +35,7 @@ public class SaveSystem
         return processData.GetLevel();
     }
     
-    public int[] GetSavedInventory()
+    public int[] GetSavedInventoryStacks()
     {
         if (processData.Data == null)
         {
@@ -43,6 +43,16 @@ public class SaveSystem
         }
 
         return processData.GetInventoryStacks();
+    }
+
+    public string[] GetSavedInventoryIDs()
+    {
+        if (processData.Data == null)
+        {
+            LoadData();
+        }
+
+        return processData.GetInventoryIDs();
     }
 
     private void LoadData()

@@ -29,6 +29,13 @@ public class Scene_Manager : MonoBehaviour
         }
 
         InitializeSceneTree();
+        currentSceneIndex = GetCurrentSceneIndex();
+    }
+
+    private void Update()
+    {
+
+        currentSceneIndex = GetCurrentSceneIndex();
     }
 
     public void InitializeSceneTree()
@@ -49,8 +56,8 @@ public class Scene_Manager : MonoBehaviour
                 excludedIndixes.Add(i);
         }
 
-        Debug.Log($"Scene tree initialized with {count} scenes.");
-        sceneTree.DisplayTree(TreeOrderTypes.InOrder);
+        //Debug.Log($"Scene tree initialized with {count} scenes.");
+        //sceneTree.DisplayTree(TreeOrderTypes.InOrder);
     }
 
     public void LoadNextScene()
@@ -120,6 +127,7 @@ public class Scene_Manager : MonoBehaviour
         }
 
         Debug.Log($"[LoadingScreen] Now loading target scene: {found.id}");
+        
         SceneManager.LoadScene(found.info);
         GameManager.instanceGM.ResetTime();
     }

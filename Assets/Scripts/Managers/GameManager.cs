@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,14 +8,17 @@ public class GameManager : MonoBehaviour
     // Static instance of GameManager
     public static GameManager instanceGM;
 
-    
+    private SaveHandler saveHandler;
+    public SaveHandler SaveHandler => saveHandler;
 
     private Inventory _playerInventory;
+
     public Inventory PlayerInventory
     {
         get { return _playerInventory; }
         set { _playerInventory = value; }
     }
+
     // Game states
     public enum GameState { MainMenu, Loading, Gameplay, Victory }
     public GameState currentState;
@@ -55,8 +59,23 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        saveHandler = new SaveHandler();
+        saveHandler.Initialize();
+    }
+
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadGame();
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            SaveGame();
+        }
+
         if (!showSR)
         {
             UpdateGameState();
@@ -258,5 +277,19 @@ public class GameManager : MonoBehaviour
                 UI_Manager.instanceUIM.TogglePauseMenu();
             }
         }
+    }
+
+    public void SaveGame()
+    {
+        saveHandler.SaveGame();
+    }
+
+    public void LoadGame()
+    {
+        saveHandler.LoadGame();
+    }
+    public void LoadInventory(Inventory inv)
+    {
+        saveHandler.LoadInventory(inv);
     }
 }

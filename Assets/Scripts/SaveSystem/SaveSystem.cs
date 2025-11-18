@@ -27,30 +27,33 @@ public class SaveSystem
 
     public int GetSavedLevel()
     {
-        if (processData.Data == null)
-        {
-            LoadData();
-        }
+        LoadData();
+        //if (processData.Data == null)
+        //{
+            
+        //}
 
         return processData.GetLevel();
     }
     
     public int[] GetSavedInventoryStacks()
     {
-        if (processData.Data == null)
-        {
-            LoadData();
-        }
+        LoadData();
+        //if (processData.Data == null)
+        //{
+            
+        //}
 
         return processData.GetInventoryStacks();
     }
 
     public string[] GetSavedInventoryIDs()
     {
-        if (processData.Data == null)
-        {
-            LoadData();
-        }
+        LoadData();
+        //if (processData.Data == null)
+        //{
+            
+        //}
 
         return processData.GetInventoryIDs();
     }

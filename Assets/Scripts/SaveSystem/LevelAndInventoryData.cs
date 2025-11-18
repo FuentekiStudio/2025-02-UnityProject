@@ -15,6 +15,9 @@ public class LevelAndInventoryData
         savedLevel = sceneIndex;
         objectNames = itemNames;
         objectStack = itemStacks;
+
+
+        Debug.Log($"Nivel guardado en LevelInventoryData {savedLevel}");
     }
 
     //public static LevelAndInventoryData ReturnClass()

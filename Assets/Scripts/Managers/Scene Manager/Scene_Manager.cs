@@ -34,7 +34,6 @@ public class Scene_Manager : MonoBehaviour
 
     private void Update()
     {
-
         currentSceneIndex = GetCurrentSceneIndex();
     }
 
@@ -68,7 +67,7 @@ public class Scene_Manager : MonoBehaviour
 
         if (nextIndex == -1)
         {
-            Debug.Log("No next scene found, reloading first available gameplay scene.");
+            //Debug.Log("No next scene found, reloading first available gameplay scene.");
             nextIndex = GetFirstPlayableScene();
         }
 
@@ -84,7 +83,7 @@ public class Scene_Manager : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Loading scene: {found.id}");
+        //Debug.Log($"Loading scene: {found.id}");
         SceneManager.LoadScene(found.info);
         GameManager.instanceGM.ResetTime();
     }
@@ -106,7 +105,7 @@ public class Scene_Manager : MonoBehaviour
 
         if (sceneNames.Values.Contains("LoadingScreen"))
         {
-            Debug.Log($"Loading LoadingScreen before {sceneNames[targetSceneIndex]}...");
+            //Debug.Log($"Loading LoadingScreen before {sceneNames[targetSceneIndex]}...");
             SceneManager.LoadScene("LoadingScreen");
         }
         else
@@ -126,7 +125,7 @@ public class Scene_Manager : MonoBehaviour
             return;
         }
 
-        Debug.Log($"[LoadingScreen] Now loading target scene: {found.id}");
+        //Debug.Log($"[LoadingScreen] Now loading target scene: {found.id}");
         
         SceneManager.LoadScene(found.info);
         GameManager.instanceGM.ResetTime();
@@ -196,6 +195,7 @@ public class Scene_Manager : MonoBehaviour
 
     public int GetCurrentSceneIndex()
     {
+        //Debug.Log($"{sceneTree.Search(currentSceneIndex).info}");
         //return sceneTree.Search(currentSceneIndex).info;
         return SceneManager.GetActiveScene().buildIndex;
     }

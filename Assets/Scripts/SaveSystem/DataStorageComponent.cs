@@ -24,8 +24,11 @@ public class DataStorageComponent
     public LevelAndInventoryData Load()
     {
 
-        if (!File.Exists(path)) return null;
+        if (!File.Exists(path)) 
+            return null;
+
         string jsonFromFile = File.ReadAllText(path);
+
         try { return JsonUtility.FromJson<LevelAndInventoryData>(jsonFromFile); }
         catch { return null; }
         

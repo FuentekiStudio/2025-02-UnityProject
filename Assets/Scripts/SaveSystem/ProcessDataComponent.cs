@@ -16,8 +16,8 @@ public class ProcessDataComponent
 
     public int GetLevel()
     {
+        Debug.Log($"Nivel guardado {data.savedLevel}");
         return data.savedLevel;
-
     }
 
     public int[] GetInventoryStacks()

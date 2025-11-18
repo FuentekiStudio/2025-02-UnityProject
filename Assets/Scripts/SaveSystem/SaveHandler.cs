@@ -30,8 +30,8 @@ public class SaveHandler
             count++;
         }
 
-        LevelAndInventoryData data = new LevelAndInventoryData(Scene_Manager.Instance.currentSceneIndex + 1, itemNames, itemStacks);
-        Debug.Log(data.savedLevel);
+        LevelAndInventoryData data = new LevelAndInventoryData(Scene_Manager.Instance.GetCurrentSceneIndex() + 1, itemNames, itemStacks);
+        Debug.Log("Indice de la escena" + data.savedLevel);
         saveSystem.SaveData(data);
     }
 
@@ -66,7 +66,7 @@ public class SaveHandler
     {
         Debug.Log("Cleared Save");
         LevelAndInventoryData data = new LevelAndInventoryData(2, null, null);
-        Debug.Log(data.savedLevel);
+        //Debug.Log(data.savedLevel);
         saveSystem.SaveData(data);
     }
 }

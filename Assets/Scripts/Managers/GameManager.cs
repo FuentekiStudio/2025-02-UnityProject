@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     // Static instance of GameManager
     public static GameManager instanceGM;
 
+    
 
     private Inventory _playerInventory;
     public Inventory PlayerInventory

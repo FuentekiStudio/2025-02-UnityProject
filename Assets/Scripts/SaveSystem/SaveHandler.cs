@@ -31,6 +31,7 @@ public class SaveHandler
         }
 
         LevelAndInventoryData data = new LevelAndInventoryData(Scene_Manager.Instance.currentSceneIndex + 1, itemNames, itemStacks);
+        Debug.Log(data.savedLevel);
         saveSystem.SaveData(data);
     }
 
@@ -47,12 +48,25 @@ public class SaveHandler
         itemNames = saveSystem.GetSavedInventoryIDs();
         itemStacks = saveSystem.GetSavedInventoryStacks();
 
-        for (int i = 0; i < itemNames.Length; i++)
+        if (itemNames != null && itemStacks != null)
         {
-            ItemData newData = Resources.Load<ItemData>($"ScriptableObjects/Items/{itemNames[i]}");
-            //Debug.Log($"ScriptableObjects/Items/{itemNames[i]}");
-            //Debug.Log(newData);
-            inv.AddItem(newData, itemStacks[i]);
+            for (int i = 0; i < itemNames.Length; i++)
+            {
+                ItemData newData = Resources.Load<ItemData>($"ScriptableObjects/Items/{itemNames[i]}");
+                //Debug.Log($"ScriptableObjects/Items/{itemNames[i]}");
+                //Debug.Log(newData);
+                inv.AddItem(newData, itemStacks[i]);
+            }
+            Debug.Log("Items Loadeados");
         }
+        
+    }
+
+    public void ClearSave()
+    {
+        Debug.Log("Cleared Save");
+        LevelAndInventoryData data = new LevelAndInventoryData(2, null, null);
+        Debug.Log(data.savedLevel);
+        saveSystem.SaveData(data);
     }
 }

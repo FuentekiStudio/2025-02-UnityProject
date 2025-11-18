@@ -292,4 +292,8 @@ public class GameManager : MonoBehaviour
     {
         saveHandler.LoadInventory(inv);
     }
+    public void NewGame()
+    {
+        saveHandler.ClearSave();
+    }
 }

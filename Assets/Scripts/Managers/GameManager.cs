@@ -30,14 +30,16 @@ public class GameManager : MonoBehaviour
     public bool stopTimer = false;
 
     // Coins variables
-    public int currentCoinsCollected = 0;
+    public int initialCoinsCollected = 0;
+    public int coinsCollectedInLevel = 0;
     public int currentCoinsInLevel = 0;
     public int totalCoinsCollected = 0;
     public int totalCoins = 0;
     public bool countItems = false;
 
     // Relics variables
-    public int currentRelicsCollected = 0;
+    public int initialRelicsCollected = 0;
+    public int relicsCollectedInLevel = 0;
     public int currentRelicsInLevel = 0;
     public int totalRelicsCollected = 0;
     public int totalRelics = 0;
@@ -87,7 +89,7 @@ public class GameManager : MonoBehaviour
 
         GameplayTimer();
         GetCurrentItemsInScene();
-        GetCurrentItems();
+        
     }
 
     private void GameplayTimer()
@@ -121,14 +123,21 @@ public class GameManager : MonoBehaviour
         currentState = GameState.Victory;
     }
 
-    private void GetCurrentItems()
+    private void GetInitialItems()
     {
         if (_playerInventory != null)
         {
-            currentCoinsCollected = _playerInventory.GetItemCountByID(2);
-            currentRelicsCollected = _playerInventory.GetItemCountByID(3);
+            initialCoinsCollected = _playerInventory.GetItemCountByID(2);
+            initialRelicsCollected = _playerInventory.GetItemCountByID(3);
         }
     }
+
+    public void GetDiferentialItemsCount()
+    {
+        coinsCollectedInLevel = _playerInventory.GetItemCountByID(2) - initialCoinsCollected;
+        relicsCollectedInLevel = _playerInventory.GetItemCountByID(3) - initialRelicsCollected;
+    }
+
     private void GetCurrentItemsInScene()
     {
         if (currentState == GameState.Gameplay && !countItems)
@@ -160,6 +169,8 @@ public class GameManager : MonoBehaviour
             currentCoinsInLevel = coinsCount;
             currentRelicsInLevel = relicsCount;
 
+            GetInitialItems();
+
             //Debug.Log($"Items in Scene Counted: Coins = {currentCoinsInLevel}, Relics = {currentRelicsInLevel}");
         }
         else if (currentState == GameState.Loading)
@@ -170,9 +181,9 @@ public class GameManager : MonoBehaviour
     public void ResetCollectableVariables()
     {
         countItems = false;
-        currentCoinsCollected = 0;
+        initialCoinsCollected = 0;
         currentCoinsInLevel = 0;
-        currentRelicsCollected = 0;
+        initialRelicsCollected = 0;
         currentRelicsInLevel = 0;  
     }
     public void ResetTotalVariables()
@@ -187,8 +198,8 @@ public class GameManager : MonoBehaviour
     public void UpdateTotalCounts()
     {
         totalGameplayTime += currentLevelTime;
-        totalCoinsCollected += currentCoinsCollected;
-        totalRelicsCollected += currentRelicsCollected;
+        totalCoinsCollected += coinsCollectedInLevel;
+        totalRelicsCollected += relicsCollectedInLevel;
         totalCoins += currentCoinsInLevel;
         totalRelics += currentRelicsInLevel;
     }

@@ -4,32 +4,6 @@ using UnityEngine;
 
 public class InvQuickSort
 {
-
-    //private void Start()
-    //{
-
-    //    for (int i = 0; i < 10; i++)
-    //    {
-    //        arrayPlayer[i] = new Player();
-    //        arrayPlayer[i].name = "Player_" + i.ToString();
-    //        arrayPlayer[i].score = Random.Range(1, 100);
-    //    }
-
-    //    Debug.Log("Inicio Programa: Quick Sort");
-
-    //    // muestro vector desordenado
-    //    Debug.Log("\nLista Desordenada: ");
-    //    ImprimirVector(arrayPlayer);
-
-    //    // algoritmo de ordenamiento
-    //    // inicialmente los parametros left y right son los extremos del vector
-    //    QSort(arrayPlayer, 0, arrayPlayer.Length - 1);
-
-    //    // muestro vector ordenado
-    //    Debug.Log("\nLista Ordenada: ");
-    //    ImprimirVector(arrayPlayer);
-    //}
-
     public int Partition(List<InventoryItem> items, int left, int right)
     {
         int pivot;
@@ -40,27 +14,27 @@ public class InvQuickSort
         // a la izquierda y los mayores a la derecha
         while (true)
         {
-            Debug.Log($"hola {pivot}");
+            //Debug.Log($"hola {pivot}");
 
             while (items[left].stackSize < pivot)
             {
                 left++;
-                Debug.Log(left);
+                //Debug.Log(left);
             }
             while (items[right].stackSize > pivot)
             {
                 right--;
-                Debug.Log(right);
+                //Debug.Log(right);
             }
 
             if (items[left].stackSize == items[right].stackSize)
             {
-                Debug.Log($"sayonara :) - {left} {right}");
+                //Debug.Log($"sayonara :) - {left} {right}");
                 return right;
             }
             if (left < right)
             {
-                Debug.Log("A");
+                //Debug.Log("A");
                 InventoryItem temp = items[right];
                 items[right] = items[left];
                 items[left] = temp;
@@ -69,7 +43,7 @@ public class InvQuickSort
             {
                 // este es el valor que devuelvo como proxima posicion de
                 // la particion en el siguiente paso del algoritmo
-                Debug.Log("B");
+                //Debug.Log("B");
                 return right;
             }
         }

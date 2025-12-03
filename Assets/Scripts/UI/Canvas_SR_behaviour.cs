@@ -47,7 +47,7 @@ public class Canvas_SR_behaviour : MonoBehaviour
     private void UpdateCoins()
     {
         int currentCoinsInLevel = GameManager.instanceGM.currentCoinsInLevel;
-        int currentCoinsCollected = GameManager.instanceGM.currentCoinsCollected;
+        int currentCoinsCollected = GameManager.instanceGM.coinsCollectedInLevel;
 
         coinsText.text = $"{currentCoinsCollected:00} / {currentCoinsInLevel:00}";
     }
@@ -55,7 +55,7 @@ public class Canvas_SR_behaviour : MonoBehaviour
     private void UpdateRelics()
     {
         int currentRelicsInLevel = GameManager.instanceGM.currentRelicsInLevel;
-        int currentRelicsCollected = GameManager.instanceGM.currentRelicsCollected;
+        int currentRelicsCollected = GameManager.instanceGM.relicsCollectedInLevel;
 
         relicsText.text = $"{currentRelicsCollected:00} / {currentRelicsInLevel:00}";
     }

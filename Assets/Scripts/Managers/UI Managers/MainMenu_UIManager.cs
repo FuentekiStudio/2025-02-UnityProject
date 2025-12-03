@@ -15,7 +15,13 @@ public class MainMenu_UIManager : MonoBehaviour
 
     public void PlayButtonCallback()
     {
+        GameManager.instanceGM.NewGame();
         Scene_Manager.Instance.LoadNextScene();
+    }
+
+    public void LoadButtonCallback()
+    {
+        GameManager.instanceGM.LoadGame();
     }
 
     public void OptionButtonCallback()

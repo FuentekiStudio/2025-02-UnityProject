@@ -2008,7 +2008,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 284302402}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 82.37, y: 26.78, z: 0}
+  m_LocalPosition: {x: 82.46, y: 26.94, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3523,7 +3523,7 @@ MonoBehaviour:
   - {fileID: 119841400}
   - {fileID: 788116946}
   - {fileID: 971911321}
-  id: 6
+  id: 7
   graph: {fileID: 0}
 --- !u!212 &689253786
 SpriteRenderer:
@@ -3585,7 +3585,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689253784}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 75.52, y: 28.1, z: 0}
+  m_LocalPosition: {x: 75.52, y: 28.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -237969,10 +237969,10 @@ MonoBehaviour:
   - {fileID: 1321941313}
   - {fileID: 1474503201}
   - {fileID: 284302403}
-  avoidNodes:
   - {fileID: 689253785}
   originNode: {fileID: 1015312988}
   destinyNode: {fileID: 437790137}
+  avoidNode: {fileID: 689253785}
   maxDistance: 3
   bill: {fileID: 567060441}
 --- !u!4 &1238457726
@@ -259779,7 +259779,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1474503200}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 80.04, y: 28.21, z: 0}
+  m_LocalPosition: {x: 80.18, y: 28.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

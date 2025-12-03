@@ -1,17 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class PuzzleGraph : MonoBehaviour
 {
     [SerializeField] List<PuzzleNode> nodes;
-    [SerializeField] List<PuzzleNode> avoidNodes;
+    
 
     private Graph graph;
 
     public PuzzleNode originNode;
     public PuzzleNode destinyNode;
+    public PuzzleNode avoidNode;
     public int maxDistance;
     
     private Dijkstra dijkstra;
@@ -23,7 +25,7 @@ public class PuzzleGraph : MonoBehaviour
     private bool victory = false;
 
     //Booleana para verificar conexion con nodos no deseados / avoidNodes
-    private bool badNode = false;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -76,12 +78,11 @@ public class PuzzleGraph : MonoBehaviour
     public bool WinCondition()
     {
         DijkstraResult result = dijkstra.Ejecutar(originNode.id);
-        List<DijkstraResult> avoidNodesResult = new List<DijkstraResult>();
+        
 
-        foreach (PuzzleNode node in avoidNodes)
-        {
-            avoidNodesResult.Add(dijkstra.Ejecutar(node.id));
-        }
+        
+           
+        
 
         //Debug.Log("Distancias:");
         //for(int i = 0; i < result.Vertices.Count; i++)
@@ -95,30 +96,7 @@ public class PuzzleGraph : MonoBehaviour
         int distance = result.Distancia[indiceDestino];
 
 
-        int c = avoidNodes.Count;
-        foreach (DijkstraResult avoidResult in avoidNodesResult)
-        {
-            int i = 0;
-
-            List<int> avoidPath = dijkstra.ObtenerCamino(originNode.id,avoidNodes[i].id, avoidResult);
-            int indexDestino = avoidResult.Vertices.IndexOf(destinyNode.id);
-            int distanceToDestiny = avoidResult.Distancia[indexDestino];
-
-            if (avoidPath.Count != 0 && distanceToDestiny >= 1)
-            {
-                badNode = true;
-                Debug.Log("Bad Node: " + badNode);
-            }
-            else
-            {
-                badNode = false;
-            }
-
-            if (i+1 <= c)
-            {
-                i++;
-            }
-        }
+        
         
 
         string pathString = "Path: ";
@@ -146,11 +124,33 @@ public class PuzzleGraph : MonoBehaviour
         return false;
     }
 
+
+    public bool AvoidNodeCondition()
+    {
+        DijkstraResult avoidNodeResult = dijkstra.Ejecutar(originNode.id);
+
+        List<int> avoidPath = dijkstra.ObtenerCamino(originNode.id, avoidNode.id, avoidNodeResult);
+        int avoidIndiceDestino = avoidNodeResult.Vertices.IndexOf(avoidNode.id);
+        int avoidDistance = avoidNodeResult.Distancia[avoidIndiceDestino];
+
+        // && avoidDistance >= 1
+        if (avoidPath.Count != 0 )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     public void CheckVictory()
     {
         
         bool win = WinCondition();
-        if (win && !badNode){
+        bool cleanPath = AvoidNodeCondition();
+
+        if (win && cleanPath){
             bill.openedGate = false;
             bill.ChangeSprite();
         }else{

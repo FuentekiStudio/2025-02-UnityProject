@@ -36,6 +36,7 @@ public class ScoreManager : MonoBehaviour
         inventoryItemsCount = inventoryDictionaryScore.Count;
     }
 
+
     public void SaveInventory(Dictionary<ItemData, InventoryItem> inventory)
     {
         inventoryDictionaryScore = new Dictionary<ItemData, InventoryItem>();
@@ -57,4 +58,5 @@ public class ScoreManager : MonoBehaviour
     public void ResetInventory(){
        inventoryDictionaryScore = new Dictionary<ItemData, InventoryItem>();
     }
+
 }

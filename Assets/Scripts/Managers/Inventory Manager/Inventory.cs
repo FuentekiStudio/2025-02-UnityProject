@@ -18,17 +18,14 @@ public class Inventory : MonoBehaviour
 
     InvQuickSort qSort;
 
-
-    private void Awake()
+    private void Start()
     {
         qSort = new InvQuickSort();
-
         inventoryDictionary = new Dictionary<ItemData, InventoryItem>();
-
-        //foreach (var item in ScoreManager.instance.LoadInventory())
-        //{
-        //    inventoryDictionary.Add(item.Key, new InventoryItem(item.Key, item.Value.stackSize));
-        //}
+        foreach (var item in ScoreManager.instance.LoadInventory())
+        {
+            inventoryDictionary.Add(item.Key, new InventoryItem(item.Key, item.Value.stackSize));
+        }
 
 
         inventoryItems = new List<InventoryItem>();
@@ -37,11 +34,8 @@ public class Inventory : MonoBehaviour
         // Initialize itemTypeCounts
         itemTypeCounts = new Dictionary<int, int>();
 
-
         itemSlot = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
         UpdateSlotUI();
-
-        GameManager.instanceGM.LoadInventory(this);
 
         GameManager.instanceGM.PlayerInventory = this;
     }
@@ -69,22 +63,15 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void ClearList()
-    {
-        inventoryItems.Clear();
-        inventoryDictionary.Clear();
-        itemTypeCounts.Clear();
-    }
-
-    public void AddItem(ItemData _item, int stackSize = 1)
+    public void AddItem(ItemData _item)
     {
         if (inventoryDictionary.TryGetValue(_item, out InventoryItem value))
         {
-            value.AddStack(stackSize);
+            value.AddStack();
         }
         else
         {
-            InventoryItem newItem = new InventoryItem(_item, stackSize);
+            InventoryItem newItem = new InventoryItem(_item);
             inventoryItems.Add(newItem);
             inventoryDictionary.Add(_item, newItem);
         }
@@ -92,11 +79,11 @@ public class Inventory : MonoBehaviour
         // Update the count of the item type by ID
         if (itemTypeCounts.ContainsKey(_item.ID))
         {
-            itemTypeCounts[_item.ID] += stackSize;
+            itemTypeCounts[_item.ID]++;
         }
         else
         {
-            itemTypeCounts[_item.ID] = stackSize;
+            itemTypeCounts[_item.ID] = 1;
         }
 
         qSort.QSort(inventoryItems, 0, inventoryItems.Count - 1);

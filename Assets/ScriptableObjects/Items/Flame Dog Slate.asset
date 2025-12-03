@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b48f78ac8231ade40adbabf11edea59f, type: 3}
-  m_Name: Tohpek
+  m_Name: Flame Dog Slate
   m_EditorClassIdentifier: 
   itemName: Tohpek
   icon: {fileID: 21300000, guid: d8e1cdcba0571554b8de7b8639826634, type: 3}

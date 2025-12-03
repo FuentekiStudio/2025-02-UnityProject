@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,17 +7,13 @@ public class GameManager : MonoBehaviour
     // Static instance of GameManager
     public static GameManager instanceGM;
 
-    private SaveHandler saveHandler;
-    public SaveHandler SaveHandler => saveHandler;
 
     private Inventory _playerInventory;
-
     public Inventory PlayerInventory
     {
         get { return _playerInventory; }
         set { _playerInventory = value; }
     }
-
     // Game states
     public enum GameState { MainMenu, Loading, Gameplay, Victory }
     public GameState currentState;
@@ -30,16 +25,14 @@ public class GameManager : MonoBehaviour
     public bool stopTimer = false;
 
     // Coins variables
-    public int initialCoinsCollected = 0;
-    public int coinsCollectedInLevel = 0;
+    public int currentCoinsCollected = 0;
     public int currentCoinsInLevel = 0;
     public int totalCoinsCollected = 0;
     public int totalCoins = 0;
     public bool countItems = false;
 
     // Relics variables
-    public int initialRelicsCollected = 0;
-    public int relicsCollectedInLevel = 0;
+    public int currentRelicsCollected = 0;
     public int currentRelicsInLevel = 0;
     public int totalRelicsCollected = 0;
     public int totalRelics = 0;
@@ -61,23 +54,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
-    {
-        saveHandler = new SaveHandler();
-        saveHandler.Initialize();
-    }
-
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            LoadGame();
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            SaveGame();
-        }
-
         if (!showSR)
         {
             UpdateGameState();
@@ -89,7 +67,7 @@ public class GameManager : MonoBehaviour
 
         GameplayTimer();
         GetCurrentItemsInScene();
-        
+        GetCurrentItems();
     }
 
     private void GameplayTimer()
@@ -123,21 +101,14 @@ public class GameManager : MonoBehaviour
         currentState = GameState.Victory;
     }
 
-    private void GetInitialItems()
+    private void GetCurrentItems()
     {
         if (_playerInventory != null)
         {
-            initialCoinsCollected = _playerInventory.GetItemCountByID(2);
-            initialRelicsCollected = _playerInventory.GetItemCountByID(3);
+            currentCoinsCollected = _playerInventory.GetItemCountByID(2);
+            currentRelicsCollected = _playerInventory.GetItemCountByID(3);
         }
     }
-
-    public void GetDiferentialItemsCount()
-    {
-        coinsCollectedInLevel = _playerInventory.GetItemCountByID(2) - initialCoinsCollected;
-        relicsCollectedInLevel = _playerInventory.GetItemCountByID(3) - initialRelicsCollected;
-    }
-
     private void GetCurrentItemsInScene()
     {
         if (currentState == GameState.Gameplay && !countItems)
@@ -169,8 +140,6 @@ public class GameManager : MonoBehaviour
             currentCoinsInLevel = coinsCount;
             currentRelicsInLevel = relicsCount;
 
-            GetInitialItems();
-
             //Debug.Log($"Items in Scene Counted: Coins = {currentCoinsInLevel}, Relics = {currentRelicsInLevel}");
         }
         else if (currentState == GameState.Loading)
@@ -181,9 +150,9 @@ public class GameManager : MonoBehaviour
     public void ResetCollectableVariables()
     {
         countItems = false;
-        initialCoinsCollected = 0;
+        currentCoinsCollected = 0;
         currentCoinsInLevel = 0;
-        initialRelicsCollected = 0;
+        currentRelicsCollected = 0;
         currentRelicsInLevel = 0;  
     }
     public void ResetTotalVariables()
@@ -198,8 +167,8 @@ public class GameManager : MonoBehaviour
     public void UpdateTotalCounts()
     {
         totalGameplayTime += currentLevelTime;
-        totalCoinsCollected += coinsCollectedInLevel;
-        totalRelicsCollected += relicsCollectedInLevel;
+        totalCoinsCollected += currentCoinsCollected;
+        totalRelicsCollected += currentRelicsCollected;
         totalCoins += currentCoinsInLevel;
         totalRelics += currentRelicsInLevel;
     }
@@ -288,23 +257,5 @@ public class GameManager : MonoBehaviour
                 UI_Manager.instanceUIM.TogglePauseMenu();
             }
         }
-    }
-
-    public void SaveGame()
-    {
-        saveHandler.SaveGame();
-    }
-
-    public void LoadGame()
-    {
-        saveHandler.LoadGame();
-    }
-    public void LoadInventory(Inventory inv)
-    {
-        saveHandler.LoadInventory(inv);
-    }
-    public void NewGame()
-    {
-        saveHandler.ClearSave();
     }
 }

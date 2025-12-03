@@ -38,8 +38,6 @@ public class gateScript : MonoBehaviour
         if (collision.GetComponent<Character_Controller>() != null && openedGate)
         {
             GameManager.instanceGM.showSR = true;
-            GameManager.instanceGM.GetDiferentialItemsCount();
-            GameManager.instanceGM.SaveGame();
         }
     }
 }

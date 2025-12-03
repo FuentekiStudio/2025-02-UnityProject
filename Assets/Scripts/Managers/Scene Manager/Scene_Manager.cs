@@ -29,6 +29,12 @@ public class Scene_Manager : MonoBehaviour
         }
 
         InitializeSceneTree();
+        currentSceneIndex = GetCurrentSceneIndex();
+    }
+
+    private void Update()
+    {
+        currentSceneIndex = GetCurrentSceneIndex();
     }
 
     public void InitializeSceneTree()
@@ -49,7 +55,7 @@ public class Scene_Manager : MonoBehaviour
                 excludedIndixes.Add(i);
         }
 
-        Debug.Log($"Scene tree initialized with {count} scenes.");
+        //Debug.Log($"Scene tree initialized with {count} scenes.");
         //sceneTree.DisplayTree(TreeOrderTypes.InOrder);
     }
 
@@ -61,13 +67,12 @@ public class Scene_Manager : MonoBehaviour
 
         if (nextIndex == -1)
         {
-            Debug.Log("No next scene found, reloading first available gameplay scene.");
+            //Debug.Log("No next scene found, reloading first available gameplay scene.");
             nextIndex = GetFirstPlayableScene();
         }
 
         LoadSceneWithLoadingScreen(nextIndex);
     }
-
 
     public void LoadSceneByIndex(int index)
     {
@@ -78,7 +83,7 @@ public class Scene_Manager : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Loading scene: {found.id}");
+        //Debug.Log($"Loading scene: {found.id}");
         SceneManager.LoadScene(found.info);
         GameManager.instanceGM.ResetTime();
     }
@@ -100,7 +105,7 @@ public class Scene_Manager : MonoBehaviour
 
         if (sceneNames.Values.Contains("LoadingScreen"))
         {
-            Debug.Log($"Loading LoadingScreen before {sceneNames[targetSceneIndex]}...");
+            //Debug.Log($"Loading LoadingScreen before {sceneNames[targetSceneIndex]}...");
             SceneManager.LoadScene("LoadingScreen");
         }
         else
@@ -120,7 +125,8 @@ public class Scene_Manager : MonoBehaviour
             return;
         }
 
-        Debug.Log($"[LoadingScreen] Now loading target scene: {found.id}");
+        //Debug.Log($"[LoadingScreen] Now loading target scene: {found.id}");
+        
         SceneManager.LoadScene(found.info);
         GameManager.instanceGM.ResetTime();
     }
@@ -128,15 +134,12 @@ public class Scene_Manager : MonoBehaviour
     // Help functions
     private int FindNextSceneIndex(int currentIndex)
     {
-        List<int> orderedScenes = sceneTree.GetInOrderList();
+        int nextIndex = currentIndex + 1;
 
-        int idx = orderedScenes.IndexOf(currentIndex);
-        if (idx == -1) return -1;
-
-        for (int i = idx + 1; i < orderedScenes.Count; i++)
+        for (int i = nextIndex; i <= sceneTree.Greatest(sceneTree.root); i++)
         {
-            if (!excludedIndixes.Contains(orderedScenes[i]))
-                return orderedScenes[i];
+            if (!excludedIndixes.Contains(sceneTree.Search(i).info))
+                return sceneTree.Search(i).info;
         }
         return -1;
     }
@@ -192,6 +195,7 @@ public class Scene_Manager : MonoBehaviour
 
     public int GetCurrentSceneIndex()
     {
+        //Debug.Log($"{sceneTree.Search(currentSceneIndex).info}");
         //return sceneTree.Search(currentSceneIndex).info;
         return SceneManager.GetActiveScene().buildIndex;
     }

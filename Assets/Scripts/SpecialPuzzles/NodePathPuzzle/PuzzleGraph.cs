@@ -18,8 +18,7 @@ public class PuzzleGraph : MonoBehaviour
     Coroutine delayedVictoryCoroutine;
 
     public gateScript bill;
-    private bool victory = false;
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -32,9 +31,6 @@ public class PuzzleGraph : MonoBehaviour
             graph.AddVertex(node.id);
             node.graph = this;
         }
-
-        //originNode = nodes[0];
-        //destinyNode = nodes[nodes.Count -1];
 
     }
 
